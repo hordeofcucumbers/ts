@@ -2,10 +2,6 @@
   <img src="assets/crl-logo.jpg" alt="Crazy Lions #691" width="320">
 </p>
 
-<h1 align="center">Crazy Lions [CRL] #691</h1>
-
-<p align="center">Public training information of the <b>Crazy Lions</b> alliance <b>[CRL]</b>, state <b>#691</b>, in Tiles Survive.</p>
-
 ## Contents
 
 ### Events
