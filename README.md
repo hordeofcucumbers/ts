@@ -2,10 +2,6 @@
   <img src="assets/crl-logo.jpg" alt="Crazy Lions #691" width="320">
 </p>
 
-<h1 align="center">Crazy Lions [CRL] #691</h1>
-
-<p align="center">Public training information of the <b>Crazy Lions</b> alliance <b>[CRL]</b>, state <b>#691</b>, in Tiles Survive.</p>
-
 ## Contents
 
 ### Events
@@ -23,8 +19,7 @@
   6. [Other squad power](guides/tiles-survive-guide.html#c6): Chief Collection, pets, titans
   7. [Settlement](guides/tiles-survive-guide.html#c7)
   8. [Research](guides/tiles-survive-guide.html#cR)
-  9. [Weekly plan](guides/tiles-survive-guide.html#c8)
-  10. [Stores](guides/tiles-survive-guide.html#c9)
+  9. [Stores](guides/tiles-survive-guide.html#c9)
 
 ## License
 
