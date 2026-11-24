@@ -2,6 +2,13 @@
 
 Public training information of the **Crazy Lions** alliance **[CRL]**, state **#691**, in Tiles Survive.
 
+## Guides
+
+| Guide | What it covers |
+|---|---|
+| [Player Guide](guides/tiles-survive-guide.html) | Heroes, gear, signature weapons, pets, titans, research, weekly plan, stores |
+| [VS + Turbo Turtle daily plan](guides/vs-turtle-daily.html) | What to spend each day, points per item, CRL triple times, do's and don'ts |
+
 ## License
 
 Content © Crazy Lions [CRL] #691, licensed under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/).
