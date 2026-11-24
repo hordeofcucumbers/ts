@@ -4,67 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CRL #691 · VS + Turbo Turtle daily plan</title>
-<style>
-  :root {
-    --bg: #12141c; --card: #1c2030; --card2: #232842; --text: #e8eaf2; --muted: #9aa0b8;
-    --vs: #4f8cff; --tt: #35c3d8; --pp: #f0a93b; --both: #3fdc6a; --do: #3fdc6a; --dont: #ff5d6c;
-    --line: #2e3450;
-  }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--text);
-    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  header { padding: 24px 16px 8px; max-width: 1100px; margin: 0 auto; }
-  h1 { margin: 0 0 4px; font-size: 24px; }
-  .sub { color: var(--muted); font-size: 13px; }
-  main { max-width: 1100px; margin: 0 auto; padding: 8px 16px 40px; }
-  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px; }
-  .tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
-  .t-vs { background: color-mix(in srgb, var(--vs) 25%, transparent); color: var(--vs); }
-  .t-tt { background: color-mix(in srgb, var(--tt) 25%, transparent); color: var(--tt); }
-  .t-pp { background: color-mix(in srgb, var(--pp) 25%, transparent); color: var(--pp); }
-  .t-both { background: color-mix(in srgb, var(--both) 25%, transparent); color: var(--both); }
-  .t-new { background: #ff5d6c33; color: #ff8c97; }
-  .t-check { background: #9aa0b833; color: var(--muted); }
-  nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-  nav a { color: var(--text); text-decoration: none; background: var(--card); border: 1px solid var(--line);
-    padding: 6px 12px; border-radius: 8px; font-weight: 600; }
-  nav a.today { border-color: var(--both); box-shadow: 0 0 0 1px var(--both); }
-  .day { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin: 0 0 18px; overflow: hidden; }
-  .day.today { border-color: var(--both); box-shadow: 0 0 0 1px var(--both); }
-  .day h2 { margin: 0; padding: 12px 16px; font-size: 19px; background: var(--card2);
-    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-  .day h2 .theme { color: var(--muted); font-weight: 500; font-size: 14px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0; }
-  .box { padding: 12px 16px; border-top: 1px solid var(--line); }
-  .grid .box + .box { border-left: 1px solid var(--line); }
-  .box h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
-  .box ul { margin: 0; padding-left: 18px; }
-  .box li { margin: 2px 0; }
-  .vs h3 { color: var(--vs); } .tt h3 { color: var(--tt); }
-  .pp h3 { color: var(--pp); } .do h3 { color: var(--do); } .dont h3 { color: var(--dont); }
-  li.ov, tr.ov td { color: var(--both); font-weight: 700; }
-  li.ov::marker { color: var(--both); }
-  tr.ov td { background: color-mix(in srgb, var(--both) 12%, transparent); }
-  .do li::marker { content: "✔ "; color: var(--do); }
-  .dont li::marker { content: "✘ "; color: var(--dont); }
-  table { border-collapse: collapse; width: 100%; font-size: 14px; }
-  th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); }
-  th { color: var(--muted); font-weight: 600; }
-  td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .note { color: var(--muted); font-size: 13px; }
-  section.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 0 0 18px; }
-  section.card h2 { margin: 0 0 8px; font-size: 18px; }
-  .pp-table td, .pp-table th { text-align: center; }
-  .pp-table td:first-child, .pp-table th:first-child { text-align: left; white-space: nowrap; }
-  .hit { background: color-mix(in srgb, var(--both) 30%, transparent); color: var(--text); font-weight: 700; border-radius: 4px; }
-  .scroll { overflow-x: auto; }
-  footer { max-width: 1100px; margin: 0 auto; padding: 0 16px 32px; color: var(--muted); font-size: 12px; }
-</style>
+<link rel="stylesheet" href="crl-theme.css">
 </head>
-<body>
-<header>
-  <h1>VS + Turbo Turtle — daily plan</h1>
-  <div class="sub">Crazy Lions [CRL] · State #691 · Rules as of 23 Nov 2026 update · Times in UTC (server time)</div>
+<body class="vs">
+<header class="topbar">
+  <a class="brand" href="../"><img src="../assets/crl-logo.jpg" alt="">Crazy Lions [CRL] #691</a>
+  <nav><a href="../">Home</a><a href="vs-turtle-daily.html" class="on">VS + Turtle</a><a href="tiles-survive-guide.html">Player Guide</a></nav>
+</header>
+<header class="cover" style="max-width:1004px;margin:0 auto 20px;background:linear-gradient(180deg,rgba(22,75,122,.15) 0%,rgba(22,75,122,.88) 72%),url('img/art/unite.jpg') center 30%/cover no-repeat">
+  <h1>VS + Turbo Turtle<br>Daily plan</h1>
+  <p>Rules as of the 23 Nov 2026 update · Times in UTC (server time) · <span class="credit">Crazy Lions (CRL #691)</span></p>
 </header>
 <main>
 
@@ -87,7 +36,7 @@
   </ul>
 </section>
 
-<nav id="nav">
+<nav class="daynav" id="nav">
   <a href="#mon" data-d="1">Mon</a><a href="#tue" data-d="2">Tue</a><a href="#wed" data-d="3">Wed</a>
   <a href="#thu" data-d="4">Thu</a><a href="#fri" data-d="5">Fri</a><a href="#sat" data-d="6">Sat</a><a href="#sun" data-d="0">Sun</a>
 </nav>

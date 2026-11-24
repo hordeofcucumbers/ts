@@ -12,7 +12,6 @@
   --red:#c0392b; --red-soft:#fdeceb; --gold:#c98a00; --gold-soft:#fff6dc;
 }
 *{box-sizing:border-box}
-html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 .page{max-width:980px;margin:0 auto;padding:0 22px 40px}
 a{color:var(--navy);text-decoration:none}
@@ -137,36 +136,16 @@ tr.hl td{background:var(--orange-soft)}
 .ph ul{margin:6px 0 0;padding-left:18px;font-size:.88rem}
 .next{margin-top:6px;font-size:.8rem;font-weight:700;color:var(--green)}
 .arrow{text-align:center;color:var(--orange);font-size:1.1rem;line-height:1.3}
-@media print{.ph{break-inside:avoid;page-break-inside:avoid}.ph ul{font-size:8.8pt}}
+
 
 footer{margin-top:36px;padding-top:12px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
 
-@media screen and (max-width:640px){
+@media (max-width:640px){
   .grid2,.grid3,.grid4,.rules,.pair,.toc,.tl{grid-template-columns:1fr 1fr}
   .fig{grid-template-columns:1fr}
 }
-@page{size:A4 portrait;margin:12mm 11mm 14mm}
-@media print{
-  body{font-size:10pt}
-  .page{max-width:none;padding:0}
-  .cover{border-radius:0 0 14px 14px}
-  .ch{break-before:page;page-break-before:always;margin-top:0}
-  .ch.first{break-before:auto;page-break-before:auto;margin-top:22px}
-  .card,.rule,.fig,.slot,.kpi,.note,.steps>div,tr,.tl>div,.stars div,.tw{break-inside:avoid;page-break-inside:avoid}
-  .tw.long{break-inside:auto;page-break-inside:auto}
-  h3,.ch-head{break-after:avoid;page-break-after:avoid}
-  .fig{grid-template-columns:210px 1fr;padding:10px;margin:8px 0}
-  .pair .fig img{max-height:230px;width:auto;max-width:100%;margin:0 auto}
-  .fig{grid-template-columns:170px 1fr}
-  #c2 .pair .fig img{max-height:170px}
-  #c2 .kpi .v{font-size:1.1rem}
-  .pair .fig{text-align:center}
-  .pair .fig .call{text-align:left}
-  table{font-size:8.6pt}
-  .kpi{padding:10px 12px}
-  .kpi .v{font-size:1.3rem}
-  h3{margin:14px 0 6px}
-}
+
+
 
 /* =========================================================
    IN-GAME THEME (Tiles Survive look)
@@ -240,23 +219,21 @@ tr.hl td{background:#fff3d6}
 .emoji{font-style:normal;margin-right:4px}
 footer{color:var(--muted)}
 
-@media print{
-  body{background:#fff}
-  .cover{min-height:250px}
-  .ch-head{box-shadow:none}
-  .ch-head .art{width:40%}
-  .heroes-art img{height:100px}
-}
+
 
 
 .em{height:1.15em;width:auto;display:inline-block;vertical-align:-.2em;margin:0 .15em 0 0;border:none!important;background:none!important;box-shadow:none!important;border-radius:0!important}
 
-@page{@bottom-center{content:"Created by Crazy Lions (CRL #691)";font-family:"Fredoka",-apple-system,sans-serif;font-size:9pt;font-weight:600;color:#1d5a92}
-      @bottom-right{content:counter(page);font-family:"Fredoka",-apple-system,sans-serif;font-size:9pt;color:#56708a}}
+
 .credit{font-family:"Fredoka",sans-serif;font-weight:700}
 </style>
+<link rel="stylesheet" href="crl-theme.css">
 </head>
 <body>
+<header class="topbar">
+  <a class="brand" href="../"><img src="../assets/crl-logo.jpg" alt="">Crazy Lions [CRL] #691</a>
+  <nav><a href="../">Home</a><a href="vs-turtle-daily.html">VS + Turtle</a><a href="tiles-survive-guide.html" class="on">Player Guide</a></nav>
+</header>
 <div class="page">
 
 <header class="cover">
