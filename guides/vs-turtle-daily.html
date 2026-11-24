@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRL #691 · VS + Turbo Turtle daily plan</title>
+<style>
+  :root {
+    --bg: #12141c; --card: #1c2030; --card2: #232842; --text: #e8eaf2; --muted: #9aa0b8;
+    --vs: #4f8cff; --tt: #35c3d8; --pp: #f0a93b; --both: #3fdc6a; --do: #3fdc6a; --dont: #ff5d6c;
+    --line: #2e3450;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { padding: 24px 16px 8px; max-width: 1100px; margin: 0 auto; }
+  h1 { margin: 0 0 4px; font-size: 24px; }
+  .sub { color: var(--muted); font-size: 13px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 8px 16px 40px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .t-vs { background: color-mix(in srgb, var(--vs) 25%, transparent); color: var(--vs); }
+  .t-tt { background: color-mix(in srgb, var(--tt) 25%, transparent); color: var(--tt); }
+  .t-pp { background: color-mix(in srgb, var(--pp) 25%, transparent); color: var(--pp); }
+  .t-both { background: color-mix(in srgb, var(--both) 25%, transparent); color: var(--both); }
+  .t-new { background: #ff5d6c33; color: #ff8c97; }
+  .t-check { background: #9aa0b833; color: var(--muted); }
+  nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+  nav a { color: var(--text); text-decoration: none; background: var(--card); border: 1px solid var(--line);
+    padding: 6px 12px; border-radius: 8px; font-weight: 600; }
+  nav a.today { border-color: var(--both); box-shadow: 0 0 0 1px var(--both); }
+  .day { background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin: 0 0 18px; overflow: hidden; }
+  .day.today { border-color: var(--both); box-shadow: 0 0 0 1px var(--both); }
+  .day h2 { margin: 0; padding: 12px 16px; font-size: 19px; background: var(--card2);
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .day h2 .theme { color: var(--muted); font-weight: 500; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0; }
+  .box { padding: 12px 16px; border-top: 1px solid var(--line); }
+  .grid .box + .box { border-left: 1px solid var(--line); }
+  .box h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .04em; }
+  .box ul { margin: 0; padding-left: 18px; }
+  .box li { margin: 2px 0; }
+  .vs h3 { color: var(--vs); } .tt h3 { color: var(--tt); }
+  .pp h3 { color: var(--pp); } .do h3 { color: var(--do); } .dont h3 { color: var(--dont); }
+  li.ov, tr.ov td { color: var(--both); font-weight: 700; }
+  li.ov::marker { color: var(--both); }
+  tr.ov td { background: color-mix(in srgb, var(--both) 12%, transparent); }
+  .do li::marker { content: "✔ "; color: var(--do); }
+  .dont li::marker { content: "✘ "; color: var(--dont); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); }
+  th { color: var(--muted); font-weight: 600; }
+  td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .note { color: var(--muted); font-size: 13px; }
+  section.card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; margin: 0 0 18px; }
+  section.card h2 { margin: 0 0 8px; font-size: 18px; }
+  .pp-table td, .pp-table th { text-align: center; }
+  .pp-table td:first-child, .pp-table th:first-child { text-align: left; white-space: nowrap; }
+  .hit { background: color-mix(in srgb, var(--both) 30%, transparent); color: var(--text); font-weight: 700; border-radius: 4px; }
+  .scroll { overflow-x: auto; }
+  footer { max-width: 1100px; margin: 0 auto; padding: 0 16px 32px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>VS + Turbo Turtle — daily plan</h1>
+  <div class="sub">Crazy Lions [CRL] · State #691 · Rules as of 23 Nov 2026 update · Times in UTC (server time)</div>
+</header>
+<main>
+
+<div class="legend">
+  <span class="tag t-vs">VS = Alliance Duel</span>
+  <span class="tag t-tt">TT = Turbo Turtle</span>
+  <span class="tag t-pp">PP = Power Play (4h, CRL times)</span>
+  <span class="tag t-both">Green = counts in VS + Turtle → spend it</span>
+  <span class="tag t-new">NEW = added 23 Nov</span>
+  <span class="tag t-check">check = VS list not yet seen in game</span>
+</div>
+
+<section class="card">
+  <h2>The golden rules</h2>
+  <ul>
+    <li><b>Spend an item only when it is green:</b> it counts in VS <i>and</i> Turtle that day.</li>
+    <li>Best: spend it in the Power Play window for the same item (triple points).</li>
+    <li><b>Triple times are CRL-specific.</b> Power Play timing depends on the alliance. Other alliances: check your own Power Play calendar.</li>
+    <li>Diamond bundles count every VS day and every Turtle stage.</li>
+  </ul>
+</section>
+
+<nav id="nav">
+  <a href="#mon" data-d="1">Mon</a><a href="#tue" data-d="2">Tue</a><a href="#wed" data-d="3">Wed</a>
+  <a href="#thu" data-d="4">Thu</a><a href="#fri" data-d="5">Fri</a><a href="#sat" data-d="6">Sat</a><a href="#sun" data-d="0">Sun</a>
+</nav>
+
+<!-- MONDAY -->
+<article class="day" id="mon" data-d="1">
+  <h2>Monday <span class="theme">VS Day 1 · Radar Training · TT Stage 1</span> <span class="tag t-check">check</span></h2>
+  <div class="grid">
+    <div class="box vs"><h3>VS counts</h3><ul>
+      <li>Stamina, intel (radar) missions</li><li class="ov">Gear scraps (hero gear)</li><li>Gathering</li>
+      <li class="ov">Troop training <span class="tag t-new">NEW</span></li><li class="ov">Signature gear fragments <span class="tag t-new">NEW</span></li>
+    </ul></div>
+    <div class="box tt"><h3>Turtle Stage 1</h3><ul>
+      <li class="ov">Signature gear fragments</li><li class="ov">Upgrade + enhance hero gear</li><li>Reforge hammers + anchors</li><li class="ov">Troop training</li>
+    </ul></div>
+  </div>
+  <div class="grid">
+    <div class="box pp"><h3>CRL triple window</h3><ul><li><b>16:00–20:00</b> Gear Enhancement</li></ul></div>
+    <div class="box do"><h3>Do</h3><ul>
+      <li>Claim the intel missions you held over the weekend</li><li>Spend gear scraps in the gear window</li>
+      <li>Gather all day with the +100% buff</li>
+    </ul></div>
+    <div class="box dont"><h3>Don't</h3><ul>
+      <li>Use research speedups (gone from Stage 1)</li><li>Spend hero items (wait for Thu)</li>
+    </ul></div>
+  </div>
+</article>
+
+<!-- TUESDAY -->
+<article class="day" id="tue" data-d="2">
+  <h2>Tuesday <span class="theme">VS Day 2 · Base Building · TT Stage 2</span></h2>
+  <div class="grid">
+    <div class="box vs"><h3>VS points</h3>
+      <table>
+        <tr><th>Action</th><th class="n">Pts</th></tr>
+        <tr><td>S-tier Dire Dispatch</td><td class="n">150,000</td></tr>
+        <tr><td>A-class or higher truck</td><td class="n">100,000</td></tr>
+        <tr class="ov"><td>Deluxe Pet Feast</td><td class="n">100,000</td></tr>
+        <tr class="ov"><td>Legendary pet mark</td><td class="n">60,000</td></tr>
+        <tr class="ov"><td>Cloud Pudding</td><td class="n">40,000</td></tr>
+        <tr class="ov"><td>Nuclear fuel ×1 <span class="tag t-new">NEW</span></td><td class="n">27,000</td></tr>
+        <tr class="ov"><td>Fruit Medley</td><td class="n">20,000</td></tr>
+        <tr class="ov"><td>Honeyberries</td><td class="n">10,000</td></tr>
+        <tr class="ov"><td>Epic pet mark</td><td class="n">5,000</td></tr>
+        <tr class="ov"><td>Construction speedup (per min)</td><td class="n">625</td></tr>
+        <tr class="ov"><td>Rare pet mark</td><td class="n">600</td></tr>
+        <tr><td>Power +1 via construction</td><td class="n">21</td></tr>
+      </table>
+    </div>
+    <div class="box tt"><h3>Turtle Stage 2</h3><ul>
+      <li class="ov">Construction speedups</li><li class="ov">Pet marks (legendary, epic, rare)</li><li class="ov">Pet upgrades (pet food)</li><li class="ov">Nuclear fuel</li>
+    </ul></div>
+  </div>
+  <div class="grid">
+    <div class="box pp"><h3>CRL triple window</h3><ul><li><b>00:00–04:00</b> Settlement Construction</li></ul></div>
+    <div class="box do"><h3>Do</h3><ul>
+      <li>Best pet day: marks + food count in VS and Turtle</li>
+      <li>S-tier dispatch 150,000, A-class truck 100,000: double Saturday</li>
+      <li>Construction speedups: 625/min, 2.5× other days</li>
+      <li>Do intel missions but hold the claims*</li>
+    </ul></div>
+    <div class="box dont"><h3>Don't</h3><ul>
+      <li>Spend hero gear (gone from Stage 2)</li><li>Send low-class trucks</li>
+    </ul></div>
+  </div>
+</article>
+
+<!-- WEDNESDAY -->
+<article class="day" id="wed" data-d="3">
+  <h2>Wednesday <span class="theme">VS Day 3 · Tech Research · TT Stage 3</span></h2>
+  <div class="grid">
+    <div class="box vs"><h3>VS points</h3>
+      <table>
+        <tr><th>Action</th><th class="n">Pts</th></tr>
+        <tr><td>Intel mission</td><td class="n">30,000</td></tr>
+        <tr class="ov"><td>Behemoth cell</td><td class="n">12,000</td></tr>
+        <tr class="ov"><td>Biogenic protein</td><td class="n">10,000</td></tr>
+        <tr><td>Clash medal</td><td class="n">2,500</td></tr>
+        <tr class="ov"><td>Behemoth EXP (per 100, one go)</td><td class="n">1,000</td></tr>
+        <tr class="ov"><td>Research speedup (per min)</td><td class="n">250</td></tr>
+        <tr class="ov"><td>Diamond (bundles)</td><td class="n">20</td></tr>
+        <tr><td>Power +1 via research</td><td class="n">4</td></tr>
+      </table>
+    </div>
+    <div class="box tt"><h3>Turtle Stage 3</h3><ul>
+      <li class="ov">Behemoth cells</li><li>Behemoth serums</li><li class="ov">Biogenic protein (not Exclusive)</li><li class="ov">Research speedups</li>
+    </ul></div>
+  </div>
+  <div class="grid">
+    <div class="box pp"><h3>CRL triple windows</h3><ul>
+      <li><b>04:00–08:00</b> Tech Research</li><li><b>12:00–16:00</b> Behemoth Growth</li>
+    </ul></div>
+    <div class="box do"><h3>Do</h3><ul>
+      <li>Claim intel missions: 30,000 each</li><li>Feed the Behemoth all cells + protein in one go</li>
+      <li>Be online: alliance mates need research helps</li>
+    </ul></div>
+    <div class="box dont"><h3>Don't</h3><ul>
+      <li>Use Exclusive protein</li><li>Use construction speedups (save for Tue / Sat)</li>
+    </ul></div>
+  </div>
+</article>
+
+<!-- THURSDAY -->
+<article class="day" id="thu" data-d="4">
+  <h2>Thursday <span class="theme">VS Day 4 · Hero Development · TT Stage 4</span></h2>
+  <div class="grid">
+    <div class="box vs"><h3>VS points</h3>
+      <table>
+        <tr><th>Action</th><th class="n">Pts</th></tr>
+        <tr class="ov"><td>Legendary hero fragment</td><td class="n">15,200</td></tr>
+        <tr class="ov"><td>Targeted draft</td><td class="n">13,400</td></tr>
+        <tr class="ov"><td>Advanced recruitment</td><td class="n">3,000</td></tr>
+        <tr class="ov"><td>Hero skill manual</td><td class="n">2,500</td></tr>
+        <tr class="ov"><td>Epic hero fragment</td><td class="n">1,600</td></tr>
+        <tr class="ov"><td>Standard recruitment</td><td class="n">500</td></tr>
+        <tr class="ov"><td>Rare hero fragment</td><td class="n">160</td></tr>
+        <tr class="ov"><td>Diamond (bundles)</td><td class="n">20</td></tr>
+      </table>
+    </div>
+    <div class="box tt"><h3>Turtle Stage 4</h3><ul>
+      <li class="ov">Draft vouchers</li><li class="ov">Advanced + standard recruitment</li>
+      <li class="ov">Legendary / epic / rare fragments</li><li class="ov">Hero skill manuals</li>
+    </ul></div>
+  </div>
+  <div class="grid">
+    <div class="box pp"><h3>CRL triple window</h3><ul><li><b>12:00–16:00</b> Hero Upgrade</li></ul></div>
+    <div class="box do"><h3>Do</h3><ul>
+      <li>Everything is green: the best hero day</li><li><b>Drafts + recruits: today only</b> (Sat Turtle skips them)</li>
+      <li>Do intel missions but hold the claims*</li>
+    </ul></div>
+    <div class="box dont"><h3>Don't</h3><ul>
+      <li>Save drafts for Saturday</li>
+    </ul></div>
+  </div>
+</article>
+
+<!-- FRIDAY -->
+<article class="day" id="fri" data-d="5">
+  <h2>Friday <span class="theme">VS Day 5 · Battle Prep · TT Stage 5</span></h2>
+  <div class="grid">
+    <div class="box vs"><h3>VS points</h3>
+      <table>
+        <tr><th>Action</th><th class="n">Pts</th></tr>
+        <tr class="ov"><td>Gear scrap 10,000 EXP</td><td class="n">285,800</td></tr>
+        <tr class="ov"><td>Signature gear fragment <span class="tag t-new">NEW</span></td><td class="n">266,600</td></tr>
+        <tr class="ov"><td>Precision blueprint <span class="tag t-new">NEW</span></td><td class="n">74,000</td></tr>
+        <tr class="ov"><td>Gear scrap 2,000 EXP</td><td class="n">57,200</td></tr>
+        <tr><td>Intel mission</td><td class="n">37,500</td></tr>
+        <tr class="ov"><td>Gear scrap 400 EXP</td><td class="n">11,500</td></tr>
+        <tr class="ov"><td>Gear scrap 100 EXP</td><td class="n">2,900</td></tr>
+        <tr class="ov"><td>General part <span class="tag t-new">NEW</span></td><td class="n">1,590</td></tr>
+        <tr><td>Speedups: build / research / train / heal (per min)</td><td class="n">250</td></tr>
+        <tr><td>Train soldier Lv 1 → 10</td><td class="n">6 → 60</td></tr>
+        <tr class="ov"><td>Diamond (bundles)</td><td class="n">20</td></tr>
+      </table>
+    </div>
+    <div class="box tt"><h3>Turtle Stage 5</h3><ul>
+      <li class="ov">Signature gear fragments</li><li class="ov">General parts</li><li class="ov">Precision blueprints</li>
+      <li>Upgrade hero gear</li><li class="ov">Enhance hero gear (gear scraps)</li><li>Reforge hammers + anchors</li>
+    </ul></div>
+  </div>
+  <div class="grid">
+    <div class="box pp"><h3>CRL triple windows</h3><ul>
+      <li><b>00:00–04:00</b> Gear Enhancement</li><li><b>16:00–20:00</b> Chief Collection</li>
+    </ul></div>
+    <div class="box do"><h3>Do</h3><ul>
+      <li>Signature gear fragments: 266,600 each</li><li>Big gear scraps in the gear window</li>
+      <li>Blueprints + parts in the collection window</li><li>Claim intel missions: 37,500 each, best day</li>
+    </ul></div>
+    <div class="box dont"><h3>Don't</h3><ul>
+      <li>Use build or research speedups (Sat counts them in VS + Turtle)</li>
+    </ul></div>
+  </div>
+</article>
+
+<!-- SATURDAY -->
+<article class="day" id="sat" data-d="6">
+  <h2>Saturday <span class="theme">VS Day 6 · Defeat Enemies · TT Stage 6</span></h2>
+  <div class="grid">
+    <div class="box vs"><h3>VS points</h3>
+      <table>
+        <tr><th>Action</th><th class="n">Pts</th></tr>
+        <tr><td>S-tier Dire Dispatch</td><td class="n">75,000</td></tr>
+        <tr><td>A-class or higher truck</td><td class="n">50,000</td></tr>
+        <tr class="ov"><td>Legendary hero fragment</td><td class="n">15,200</td></tr>
+        <tr class="ov"><td>Nuclear fuel ×1</td><td class="n">13,500</td></tr>
+        <tr><td>Targeted draft</td><td class="n">13,400</td></tr>
+        <tr class="ov"><td>Behemoth cell</td><td class="n">12,000</td></tr>
+        <tr class="ov"><td>Biogenic protein</td><td class="n">10,000</td></tr>
+        <tr><td>Advanced recruitment</td><td class="n">3,000</td></tr>
+        <tr class="ov"><td>Hero skill manual</td><td class="n">2,500</td></tr>
+        <tr><td>Clash medal</td><td class="n">2,500</td></tr>
+        <tr class="ov"><td>Epic hero fragment</td><td class="n">1,600</td></tr>
+        <tr class="ov"><td>Behemoth EXP (per 100, one go)</td><td class="n">1,000</td></tr>
+        <tr><td>Standard recruitment</td><td class="n">500</td></tr>
+        <tr class="ov"><td>Build / research speedup (per min)</td><td class="n">250</td></tr>
+        <tr><td>Train / heal speedup (per min)</td><td class="n">250</td></tr>
+        <tr class="ov"><td>Rare hero fragment</td><td class="n">160</td></tr>
+        <tr class="ov"><td>Diamond (bundles)</td><td class="n">20</td></tr>
+        <tr><td>Kill, matched alliance (Lv 1 → 10)</td><td class="n">11 → 108</td></tr>
+        <tr><td>Kill, random alliance (Lv 1 → 10)</td><td class="n">3 → 22</td></tr>
+        <tr><td>Own troops lost, PvP (Lv 1 → 10)</td><td class="n">2 → 18</td></tr>
+        <tr><td>Power +1 via build / research</td><td class="n">9 / 4</td></tr>
+      </table>
+    </div>
+    <div class="box tt"><h3>Turtle Stage 6</h3><ul>
+      <li class="ov">Behemoth cells</li><li>Behemoth serums</li><li class="ov">Biogenic protein</li>
+      <li class="ov">Legendary / epic / rare fragments</li><li class="ov">Hero skill manuals</li>
+      <li class="ov">Construction + research speedups</li><li class="ov">Nuclear fuel</li>
+    </ul></div>
+  </div>
+  <div class="grid">
+    <div class="box pp"><h3>CRL triple windows</h3><ul>
+      <li><b>00:00–04:00</b> Behemoth Growth</li><li><b>04:00–08:00</b> Hero Upgrade</li>
+      <li><b>08:00–12:00</b> Construction</li><li><b>16:00–20:00</b> Tech Research</li>
+    </ul></div>
+    <div class="box do"><h3>Do</h3><ul>
+      <li>S-tier dispatches (75,000) + A-class trucks (50,000)</li>
+      <li>Hit the <b>matched</b> alliance: 5× the points of random ones</li>
+      <li>Build + research speedups: green today</li>
+      <li>Ungarrison all teams except your main before fighting</li>
+      <li>Start holding intel claims until Monday*</li>
+    </ul></div>
+    <div class="box dont"><h3>Don't</h3><ul>
+      <li>Use drafts or recruits (VS only, Thu is green)</li>
+      <li>Farm random alliances for points</li><li>Leave teams garrisoned while enemies hit</li>
+    </ul></div>
+  </div>
+</article>
+
+<!-- SUNDAY -->
+<article class="day" id="sun" data-d="0">
+  <h2>Sunday <span class="theme">No VS · TT Stage 7 (everything counts)</span></h2>
+  <div class="grid">
+    <div class="box vs"><h3>VS</h3><ul><li>No duel today</li></ul></div>
+    <div class="box tt"><h3>Turtle Stage 7</h3><ul>
+      <li>Signature gear fragments, all gear, reforge</li><li>Construction + research speedups</li>
+      <li>Drafts, recruits, fragments, manuals</li><li>Behemoth cells, serums, protein</li>
+      <li>General parts, precision blueprints</li><li>Pet marks + pet upgrades</li>
+      <li>Kill Infected + Fiends, gathering</li><li>Nuclear fuel</li>
+    </ul></div>
+  </div>
+  <div class="grid">
+    <div class="box do"><h3>Do</h3><ul>
+      <li>Gather all day with the +100% buff</li><li>Kill Infected + Fiends (free points)</li>
+      <li>Check your weekly Turtle rank</li><li>Close to top 100 / 50? Spend a little to make it</li>
+      <li>Have ~30 held intel missions ready for Mon</li>
+    </ul></div>
+    <div class="box dont"><h3>Don't</h3><ul>
+      <li>Dump items that are green next week</li><li>Overflow the radar (claim triangle + wandering zombie)</li>
+    </ul></div>
+  </div>
+</article>
+
+<section class="card">
+  <h2>* Intel (radar) missions</h2>
+  <ul>
+    <li><b>Mon, Wed, Fri:</b> do and claim all. Wed = 30,000 each, Fri = 37,500 each.</li>
+    <li><b>Tue, Thu, Sat, Sun:</b> do but don't claim. Claim only the triangle and wandering-zombie missions.</li>
+    <li>Aim for about 30 held missions before Monday.</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h2>CRL Power Play rotation (UTC)</h2>
+  <div class="scroll">
+  <table class="pp-table">
+    <tr><th>UTC</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun</th></tr>
+    <tr><td>00–04</td><td>Hero</td><td class="hit">Construction</td><td>Collection</td><td>Research</td><td class="hit">Gear</td><td class="hit">Behemoth</td><td>Hero</td></tr>
+    <tr><td>04–08</td><td>Construction</td><td>Collection</td><td class="hit">Research</td><td>Gear</td><td>Behemoth</td><td class="hit">Hero</td><td>Construction</td></tr>
+    <tr><td>08–12</td><td>Collection</td><td>Research</td><td>Gear</td><td>Behemoth</td><td>Hero</td><td class="hit">Construction</td><td>Collection</td></tr>
+    <tr><td>12–16</td><td>Research</td><td>Gear</td><td class="hit">Behemoth</td><td class="hit">Hero</td><td>Construction</td><td>Collection</td><td>Research</td></tr>
+    <tr><td>16–20</td><td class="hit">Gear</td><td>Behemoth</td><td>Hero</td><td>Construction</td><td class="hit">Collection</td><td class="hit">Research</td><td>Gear</td></tr>
+    <tr><td>20–24</td><td>Behemoth</td><td>Hero</td><td>Construction</td><td>Collection</td><td>Research</td><td>Gear</td><td>Behemoth</td></tr>
+  </table>
+  </div>
+  <p class="note">Highlighted = triple overlap with VS + Turtle. Power Play timing depends on the alliance: these times are for CRL #691 only. Check the in-game Power Play calendar if it shifts.</p>
+</section>
+
+</main>
+<footer>
+  Sources: in-game VS Daily Theme Days 2–6 and Turbo Turtle Stage Instructions 1–7 (24 Nov 2026), the 23 Nov update notice, and the community "What, when and where to spend" table (Oct 2026).
+  Monday VS ("check") comes from the notice + community table.<br>
+  © Crazy Lions [CRL] #691 · <a style="color:inherit" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>. Game names and art belong to their owners.
+</footer>
+<script>
+  (function () {
+    var d = new Date().getUTCDay();
+    document.querySelectorAll('[data-d="' + d + '"]').forEach(function (el) { el.classList.add('today'); });
+  })();
+</script>
+</body>
+</html>

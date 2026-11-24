@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tiles Survive! Player Guide: Heroes, Gear and Settlement</title>
+<style>
+:root{
+  --ink:#16202e; --muted:#5d6878; --line:#e2e6ee; --bg:#ffffff; --soft:#f4f6fa;
+  --navy:#004e89; --navy-soft:#e6eef6; --orange:#ff6b35; --orange-soft:#fff1ea;
+  --green:#2f8f4e; --green-soft:#e9f6ee; --purple:#7b4fc9; --purple-soft:#f2ecfb;
+  --red:#c0392b; --red-soft:#fdeceb; --gold:#c98a00; --gold-soft:#fff6dc;
+}
+*{box-sizing:border-box}
+html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.page{max-width:980px;margin:0 auto;padding:0 22px 40px}
+a{color:var(--navy);text-decoration:none}
+
+/* cover */
+.cover{background:linear-gradient(135deg,var(--navy) 0%,#0a3d6b 70%);color:#fff;padding:34px 30px 30px;border-radius:0 0 22px 22px;margin-bottom:22px;position:relative;overflow:hidden}
+.cover:after{content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;border-radius:50%;background:var(--orange);opacity:.9}
+.cover h1{margin:0;font-size:2rem;line-height:1.15;max-width:640px;position:relative;z-index:1}
+.cover p{margin:8px 0 0;opacity:.92;max-width:620px;position:relative;z-index:1}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:16px;font-size:.85rem;position:relative;z-index:1}
+.legend span{display:flex;align-items:center;gap:6px}
+
+/* contents */
+.toc{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 10px}
+.toc a{display:flex;gap:8px;align-items:center;background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-weight:600;font-size:.88rem;color:var(--ink)}
+.toc b{flex:0 0 24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+
+/* chapters */
+.ch{margin-top:34px}
+.ch-head{display:flex;align-items:center;gap:14px;border-bottom:3px solid var(--orange);padding-bottom:8px;margin-bottom:14px}
+.ch-num{flex:0 0 46px;height:46px;border-radius:12px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.35rem;font-weight:800}
+.ch-head h2{margin:0;font-size:1.55rem;color:var(--navy)}
+.ch-head p{margin:2px 0 0;color:var(--muted);font-size:.92rem}
+h3{font-size:1.08rem;margin:22px 0 8px;color:var(--ink)}
+h3 .bar{display:inline-block;width:6px;height:16px;background:var(--orange);border-radius:3px;margin-right:8px;vertical-align:-2px}
+
+/* tags */
+.t{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.03em;padding:1px 6px;border-radius:4px;color:#fff;vertical-align:1px;margin-left:3px}
+.t.g{background:var(--navy)} .t.d{background:var(--purple)} .t.p{background:var(--green)} .t.o{background:var(--red)}
+
+/* building blocks */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.card h4{margin:0 0 6px;font-size:.98rem}
+.card p{margin:0}
+.card.soft{background:var(--soft)}
+.kpi{border-radius:12px;padding:14px 14px 12px;background:var(--navy-soft);border:1px solid #cfdcea}
+.kpi .v{font-size:1.6rem;font-weight:800;color:var(--navy);line-height:1.1}
+.kpi .l{font-size:.82rem;color:var(--muted);margin-top:3px}
+.kpi.or{background:var(--orange-soft);border-color:#ffd6c4} .kpi.or .v{color:#d9531e}
+.kpi.gr{background:var(--green-soft);border-color:#cbe8d5} .kpi.gr .v{color:var(--green)}
+.kpi.pu{background:var(--purple-soft);border-color:#e0d3f5} .kpi.pu .v{color:var(--purple)}
+.note{border-left:5px solid var(--navy);background:var(--navy-soft);padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:.92rem}
+.note.warn{border-color:var(--red);background:var(--red-soft)}
+.note.good{border-color:var(--green);background:var(--green-soft)}
+.note.gold{border-color:var(--gold);background:var(--gold-soft)}
+.small{font-size:.86rem} .muted{color:var(--muted)}
+
+/* numbered steps */
+.steps{counter-reset:s;display:grid;gap:8px}
+.steps>div{counter-increment:s;display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px}
+.steps>div:before{content:counter(s);flex:0 0 30px;height:30px;border-radius:50%;background:var(--orange);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+
+/* rule tiles */
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.rule{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:#fff;position:relative}
+.rule .n{position:absolute;top:10px;right:12px;font-weight:800;color:#d5dbe6;font-size:1.4rem}
+.rule h4{margin:0 0 4px;font-size:.95rem;padding-right:24px}
+.rule p{margin:0;font-size:.86rem;color:var(--muted)}
+
+/* figures with callouts */
+.fig{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start;background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.fig.wide{grid-template-columns:1fr}
+.fig img{width:100%;border-radius:10px;display:block;border:1px solid var(--line);background:#fff}
+.pair .fig img{max-height:320px;width:auto;max-width:100%;margin:0 auto}
+.pair .fig{text-align:center} .pair .fig .call{text-align:left}
+.fig figcaption{font-size:.8rem;color:var(--muted);margin-top:6px}
+.call{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.call li{display:flex;gap:10px;align-items:flex-start;font-size:.9rem}
+.call li b.k{flex:0 0 24px;height:24px;border-radius:6px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:.78rem}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* gear target cards */
+.slot{border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#fff}
+.slot .top{padding:12px 14px;color:#fff}
+.slot .top h4{margin:0;font-size:1.05rem}
+.slot .top span{font-size:.8rem;opacity:.9}
+.slot .body{padding:12px 14px;font-size:.88rem}
+.slot .body dl{margin:0}
+.slot .body dt{color:var(--muted);font-size:.74rem;text-transform:uppercase;letter-spacing:.04em;margin-top:8px}
+.slot .body dt:first-child{margin-top:0}
+.slot .body dd{margin:1px 0 0;font-weight:600}
+.slot.helm .top{background:#d9531e} .slot.arm .top{background:var(--navy)} .slot.grv .top{background:var(--green)}
+.max{display:inline-block;background:linear-gradient(90deg,#ff8a00,#ff3d00);color:#fff;font-weight:900;font-style:italic;font-size:.72rem;padding:1px 6px;border-radius:4px;margin-right:4px;vertical-align:1px}
+.leg{color:#d9531e;font-weight:700} .epi{color:var(--purple);font-weight:700}
+
+/* star strip */
+.stars{display:flex;gap:6px;flex-wrap:wrap}
+.stars div{flex:1 1 0;min-width:80px;text-align:center;border:1px solid var(--line);border-radius:10px;padding:8px 4px;background:#fff;font-size:.8rem}
+.stars .s{font-size:1rem;letter-spacing:1px;display:block}
+.r{color:#e03a1e} .y{color:#e6a700}
+
+/* tables */
+table{border-collapse:collapse;width:100%;font-size:.86rem;background:#fff}
+th,td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:700;color:var(--ink)}
+td.n,th.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.tw{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0}
+tr.hl td{background:var(--orange-soft)}
+.flag{color:var(--red);font-weight:800}
+.pill{display:inline-block;padding:1px 8px;border-radius:999px;font-size:.78rem;border:1px solid var(--line);margin:1px 2px 1px 0;background:var(--soft)}
+.pill.both{background:var(--green);border-color:var(--green);color:#fff;font-weight:700}
+
+/* timeline */
+.tl{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.tl>div{background:#fff;border:1px solid var(--line);border-top:5px solid var(--navy);border-radius:10px;padding:8px 9px;font-size:.8rem}
+.tl>div b{display:block;color:var(--navy);font-size:.9rem;margin-bottom:3px}
+.tl>div:last-child{border-top-color:var(--orange)}
+
+/* research roadmap */
+.flow{display:grid;gap:0}
+.ph{display:flex;gap:12px;align-items:stretch;background:#fff;border:1px solid var(--line);border-left:6px solid var(--navy);border-radius:12px;padding:10px 14px}
+.ph.hl{border-left-color:var(--orange);background:var(--orange-soft)}
+.ph-n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.ph.hl .ph-n{background:var(--orange)}
+.ph-b{flex:1}
+.ph-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.ph-h h4{margin:0;font-size:1rem}
+.gate{font-size:.74rem;font-weight:700;color:var(--navy);background:var(--navy-soft);border:1px solid #cfdcea;border-radius:999px;padding:2px 10px;white-space:nowrap}
+.ph ul{margin:6px 0 0;padding-left:18px;font-size:.88rem}
+.next{margin-top:6px;font-size:.8rem;font-weight:700;color:var(--green)}
+.arrow{text-align:center;color:var(--orange);font-size:1.1rem;line-height:1.3}
+@media print{.ph{break-inside:avoid;page-break-inside:avoid}.ph ul{font-size:8.8pt}}
+
+footer{margin-top:36px;padding-top:12px;border-top:1px solid var(--line);color:var(--muted);font-size:.8rem}
+
+@media screen and (max-width:640px){
+  .grid2,.grid3,.grid4,.rules,.pair,.toc,.tl{grid-template-columns:1fr 1fr}
+  .fig{grid-template-columns:1fr}
+}
+@page{size:A4 portrait;margin:12mm 11mm 14mm}
+@media print{
+  body{font-size:10pt}
+  .page{max-width:none;padding:0}
+  .cover{border-radius:0 0 14px 14px}
+  .ch{break-before:page;page-break-before:always;margin-top:0}
+  .ch.first{break-before:auto;page-break-before:auto;margin-top:22px}
+  .card,.rule,.fig,.slot,.kpi,.note,.steps>div,tr,.tl>div,.stars div,.tw{break-inside:avoid;page-break-inside:avoid}
+  .tw.long{break-inside:auto;page-break-inside:auto}
+  h3,.ch-head{break-after:avoid;page-break-after:avoid}
+  .fig{grid-template-columns:210px 1fr;padding:10px;margin:8px 0}
+  .pair .fig img{max-height:230px;width:auto;max-width:100%;margin:0 auto}
+  .fig{grid-template-columns:170px 1fr}
+  #c2 .pair .fig img{max-height:170px}
+  #c2 .kpi .v{font-size:1.1rem}
+  #c8 .pill{font-size:7.6pt;padding:0 6px;margin:1px 1px 1px 0}
+  #c8 .kpi{padding:8px 10px} #c8 .kpi .v{font-size:1.1rem}
+  #c8 td,#c8 th{padding:4px 6px}
+  .pair .fig{text-align:center}
+  .pair .fig .call{text-align:left}
+  table{font-size:8.6pt}
+  .kpi{padding:10px 12px}
+  .kpi .v{font-size:1.3rem}
+  h3{margin:14px 0 6px}
+}
+
+/* =========================================================
+   IN-GAME THEME (Tiles Survive look)
+   ========================================================= */
+@font-face{font-family:"Fredoka";src:url("fonts/Fredoka.ttf") format("truetype");font-weight:300 700;font-display:swap}
+:root{
+  --navy:#2a6fae; --navy-soft:#e3eef7; --orange:#ec6a2c; --orange-soft:#fff0e6;
+  --green:#4aa83a; --green-soft:#e8f6e2; --line:#c3d6e6; --soft:#eef4f9; --ink:#1f3347; --muted:#56708a;
+  --panel:#dbe7f0; --panel-edge:#9ebdd6; --gameblue:#2f7cc0; --gameblue-dk:#1d5a92; --cream:#f7fafc;
+}
+body{background:#e9f2f9;color:var(--ink)}
+h1,h2,h3,h4,.kpi .v,.ch-num,.toc a,.steps>div:before,.ph-n,.rule .n{font-family:"Fredoka",-apple-system,"Segoe UI",sans-serif}
+.page{background:transparent}
+
+/* cover with island art */
+.cover{background:linear-gradient(180deg,rgba(29,90,146,.15) 0%,rgba(29,90,146,.85) 70%),url("img/art/island.jpg") center 35%/cover no-repeat;
+  min-height:290px;display:flex;flex-direction:column;justify-content:flex-end;border-radius:0 0 26px 26px;padding:30px 30px 26px;border:4px solid var(--gameblue-dk);border-top:none}
+.cover:after{display:none}
+.cover h1{font-size:2.5rem;font-weight:700;letter-spacing:.5px;color:#fff;
+  text-shadow:0 3px 0 #123c63,2px 2px 0 #123c63,-2px 2px 0 #123c63,2px -1px 0 #123c63,-2px -1px 0 #123c63}
+.cover p{font-family:"Fredoka",sans-serif;font-size:1.05rem;font-weight:600;color:#fff;text-shadow:0 2px 0 #123c63}
+
+/* contents as game buttons */
+.toc{grid-template-columns:repeat(5,1fr);gap:8px}
+.toc a{background:linear-gradient(180deg,#5fc0f5,#2f8fd6);border:2px solid var(--gameblue-dk);color:#fff;font-weight:600;border-radius:12px;
+  box-shadow:0 3px 0 var(--gameblue-dk);text-shadow:0 1px 0 #164b7a}
+.toc b{background:#ffc53d;color:#7a4a00;box-shadow:0 2px 0 #c98a00}
+
+/* chapter header as blue game panel bar */
+.ch-head{background:linear-gradient(180deg,#4aa3e6 0%,var(--gameblue) 100%);border:3px solid var(--gameblue-dk);border-radius:16px;
+  padding:10px 14px;margin-bottom:14px;box-shadow:0 4px 0 var(--gameblue-dk);position:relative;overflow:hidden}
+.ch-head h2{color:#fff;font-size:1.75rem;font-weight:700;text-shadow:0 2px 0 #123c63,1px 1px 0 #123c63,-1px 1px 0 #123c63}
+.ch-head p{color:#e6f3ff;font-weight:500}
+.ch-num{background:#ffc53d;color:#7a4a00;border:2px solid #c98a00;box-shadow:0 3px 0 #c98a00;border-radius:12px}
+.ch-head .art{position:absolute;right:-6px;top:-6px;bottom:-6px;width:42%;background-size:cover;background-position:center;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 45%);mask-image:linear-gradient(90deg,transparent 0%,#000 45%);opacity:.95}
+.ch-head>div{position:relative;z-index:1}
+
+/* sub-headings in game orange */
+h3{color:var(--orange);font-size:1.18rem;font-weight:700}
+h3 .bar{background:var(--gameblue)}
+
+/* panels like in-game info boxes */
+.card,.rule,.steps>div,.ph,.slot,.tw,.fig{border:2px solid var(--panel-edge);background:var(--cream);box-shadow:0 2px 0 var(--panel-edge)}
+.card.soft,.fig{background:var(--panel)}
+.card h4,.rule h4{color:var(--gameblue-dk)}
+.kpi{background:#fff;border:2px solid var(--panel-edge);box-shadow:0 2px 0 var(--panel-edge)}
+.kpi .v{color:var(--gameblue-dk);font-weight:700}
+.kpi.or .v{color:var(--orange)} .kpi.gr .v{color:var(--green)} .kpi.pu .v{color:#8a4fd1}
+th{background:var(--panel);color:var(--gameblue-dk)}
+tr.hl td{background:#fff3d6}
+
+/* numbered steps as green game buttons */
+.steps>div:before{background:linear-gradient(180deg,#86d65e,var(--green));border:2px solid #2f7a22;box-shadow:0 2px 0 #2f7a22;font-weight:700}
+.ph-n{background:linear-gradient(180deg,#86d65e,var(--green));border:2px solid #2f7a22}
+.ph.hl .ph-n{background:linear-gradient(180deg,#ff9a5a,var(--orange));border-color:#b2471a}
+.ph{border-left:6px solid var(--gameblue)}
+.ph.hl{border-left-color:var(--orange)}
+.gate{background:#fff3d6;border-color:#f0c66b;color:#8a5a00}
+.rule .n{color:#c9dbea}
+.call li b.k{background:var(--gameblue)}
+.note{background:#fff;border:2px solid var(--panel-edge);border-left:6px solid var(--gameblue)}
+.note.good{border-left-color:var(--green)} .note.warn{border-left-color:#d84a3a;background:#fff4f2} .note.gold{border-left-color:#f0a800;background:#fffaf0}
+
+/* hero portraits strip */
+.heroes-art{display:flex;gap:10px;justify-content:center;align-items:flex-end;margin:10px 0 4px}
+.heroes-art figure{margin:0;text-align:center;background:linear-gradient(180deg,#ffb15c,#ec6a2c);border:2px solid #b2471a;border-radius:14px;padding:6px 6px 4px;box-shadow:0 3px 0 #b2471a;width:120px}
+.heroes-art img{height:120px;width:auto;display:block;margin:0 auto}
+.heroes-art figcaption{font-family:"Fredoka",sans-serif;font-weight:700;color:#fff;text-shadow:0 1px 0 #7a2c08;font-size:.9rem}
+
+.emoji{font-style:normal;margin-right:4px}
+footer{color:var(--muted)}
+
+@media print{
+  body{background:#fff}
+  .cover{min-height:250px}
+  .ch-head{box-shadow:none}
+  .ch-head .art{width:40%}
+  .heroes-art img{height:100px}
+}
+
+
+.em{height:1.15em;width:auto;display:inline-block;vertical-align:-.2em;margin:0 .15em 0 0;border:none!important;background:none!important;box-shadow:none!important;border-radius:0!important}
+
+@page{@bottom-center{content:"Created by Crazy Lions (CRL #691)";font-family:"Fredoka",-apple-system,sans-serif;font-size:9pt;font-weight:600;color:#1d5a92}
+      @bottom-right{content:counter(page);font-family:"Fredoka",-apple-system,sans-serif;font-size:9pt;color:#56708a}}
+.credit{font-family:"Fredoka",sans-serif;font-weight:700}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="cover">
+  <h1>Tiles Survive! Player Guide<br>Heroes, Gear and Settlement</h1>
+  <p>27 October 2026 · <span class="credit">Created by Crazy Lions (CRL #691)</span></p>
+</header>
+
+<nav class="toc" aria-label="Contents">
+  <a href="#c1"><b>1</b><img class="em" src="img/emoji/1f680.svg" alt=""> Quick start</a>
+  <a href="#c2"><b>2</b><img class="em" src="img/emoji/2694.svg" alt=""> Factions</a>
+  <a href="#c3"><b>3</b><img class="em" src="img/emoji/1f9b8.svg" alt=""> Heroes</a>
+  <a href="#c4"><b>4</b><img class="em" src="img/emoji/1f6e1.svg" alt=""> Gear</a>
+  <a href="#c5"><b>5</b><img class="em" src="img/emoji/1f52b.svg" alt=""> Weapons</a>
+  <a href="#c6"><b>6</b><img class="em" src="img/emoji/1f4aa.svg" alt=""> Squad power</a>
+  <a href="#c7"><b>7</b><img class="em" src="img/emoji/1f3d7.svg" alt=""> Settlement</a>
+  <a href="#cR"><b>8</b><img class="em" src="img/emoji/1f52c.svg" alt=""> Research</a>
+  <a href="#c8"><b>9</b><img class="em" src="img/emoji/1f4c5.svg" alt=""> Weekly plan</a>
+  <a href="#c9"><b>10</b><img class="em" src="img/emoji/1f6d2.svg" alt=""> Stores</a>
+</nav>
+
+<!-- ===================== 1 QUICK START ===================== -->
+<section class="ch first" id="c1">
+  <div class="ch-head"><div class="art" style="background-image:url(img/art/survivors.jpg)"></div><div class="ch-num">1</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f680.svg" alt=""></i>Quick start</h2><p>The six things to do first, and the twelve rules to keep.</p></div></div>
+
+  <div class="steps">
+    <div><span><strong>Always have a builder on the Power Plant or a building it needs.</strong> Most buildings cannot go above the Power Plant level.</span></div>
+    <div><span><strong>Choose five heroes and use your resources on them only.</strong> Start with Stalwarts: Rosie, then Tara, Nikola, Tarzan, Ray.</span></div>
+    <div><span><strong>Upgrade each of the five heroes to 8★</strong> before you upgrade any hero further. 8★ unlocks the hero's talent.</span></div>
+    <div><span><strong>Give the main squad gold gear.</strong> Then add stars to all pieces at the same pace: all to 2★, then 4★, then 6★.</span></div>
+    <div><span><strong>Use speedups on the VS day that gives points for them.</strong> Construction and pets on Tuesday, research on Wednesday, hero items on Thursday, signature gear and Chief Collection on Friday.</span></div>
+    <div><span><strong>Send every squad except the main squad to gather.</strong> Do not gather on Saturday.</span></div>
+  </div>
+
+  <h3><span class="bar"></span>12 rules</h3>
+  <div class="rules">
+    <div class="rule"><span class="n">1</span><h4><i class="emoji"><img class="em" src="img/emoji/1f3af.svg" alt=""></i>Focus on one squad at a time</h4><p>Put gear, skills and signature weapons into one squad of five heroes before you start the next squad.</p></div>
+    <div class="rule"><span class="n">2</span><h4><i class="emoji"><img class="em" src="img/emoji/26f0.svg" alt=""></i>Five heroes of one faction (5/0)</h4><p>After T10, faction research gives a bonus to one faction only. About 350K medals per branch.</p></div>
+    <div class="rule"><span class="n">3</span><h4><i class="emoji"><img class="em" src="img/emoji/2b50.svg" alt=""></i>Four heroes to 8★ before any 10★</h4><p>8★ costs 1,300 fragments. 10★ costs 1,990.</p></div>
+    <div class="rule"><span class="n">4</span><h4><i class="emoji"><img class="em" src="img/emoji/1f6e1.svg" alt=""></i>Gold gear first, then stars</h4><p>The first star (0★→1★) gives the most power for one gold piece.</p></div>
+    <div class="rule"><span class="n">5</span><h4><i class="emoji"><img class="em" src="img/emoji/1f7e3.svg" alt=""></i>Level purple gear, use it on gold</h4><p>The gold piece gets all the levels. Levelled gold into gold loses about half.</p></div>
+    <div class="rule"><span class="n">6</span><h4><i class="emoji"><img class="em" src="img/emoji/26a1.svg" alt=""></i>Power Plant first</h4><p>Keep Lab 1, Comms Outpost and Barracks 1 one level below it.</p></div>
+    <div class="rule"><span class="n">7</span><h4><i class="emoji"><img class="em" src="img/emoji/2728.svg" alt=""></i>Turn on the buff, then start</h4><p>Buffs only work on jobs you start after you turn them on.</p></div>
+    <div class="rule"><span class="n">8</span><h4><i class="emoji"><img class="em" src="img/emoji/1f4c5.svg" alt=""></i>Spend on double-point days</h4><p>When VS and Turbo Turtle both give points, you score in both.</p></div>
+    <div class="rule"><span class="n">9</span><h4><i class="emoji"><img class="em" src="img/emoji/1f3e0.svg" alt=""></i>Main squad stays home</h4><p>Send the other squads to gather.</p></div>
+    <div class="rule"><span class="n">10</span><h4><i class="emoji"><img class="em" src="img/emoji/1f6ab.svg" alt=""></i>No gathering on Saturday</h4><p>Enemies attack gathering squads and get points from them.</p></div>
+    <div class="rule"><span class="n">11</span><h4><i class="emoji"><img class="em" src="img/emoji/1f3f0.svg" alt=""></i>Empty the garrison before fights</h4><p>Settlement → Barricade → remove all teams except the main squad. If you are offline, remove the main squad as well to lower the chance of losses.</p></div>
+    <div class="rule"><span class="n">12</span><h4><i class="emoji"><img class="em" src="img/emoji/1f381.svg" alt=""></i>Collect the free bonuses</h4><p>Ferris Wheel fragments, permanent skins and Lab speedup boxes.</p></div>
+  </div>
+
+  <h3><span class="bar"></span>Common mistakes</h3>
+  <div class="grid2">
+    <div class="card soft small"><ul style="margin:0;padding-left:4px;list-style:none">
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Upgrading every hero you get.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> One gear piece at 6★ while the others stay at 0★.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Levelling a gold piece and then using it on another gold piece.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Weapons at L3 on several heroes. Get one to L5 first.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Speedups on buildings the Power Plant does not need.</li>
+    </ul></div>
+    <div class="card soft small"><ul style="margin:0;padding-left:4px;list-style:none">
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Starting a build or research before the buff is on.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Using speedups on a day VS gives no points for them.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Gathering on Saturday.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Leaving teams in the garrison during fights.</li>
+      <li><img class="em" src="img/emoji/1f6ab.svg" alt=""> Researching one faction, then changing faction.</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ===================== 2 FACTIONS ===================== -->
+<section class="ch" id="c2">
+  <div class="ch-head"><div class="art" style="background-image:url(img/art/unite.jpg)"></div><div class="ch-num">2</div><div><h2><i class="emoji"><img class="em" src="img/emoji/2694.svg" alt=""></i>Factions</h2><p>Four factions. Five heroes of one faction give the biggest squad bonus.</p></div></div>
+
+  <div class="grid4">
+    <div class="kpi gr"><div class="v"><img class="em" src="img/emoji/26f0.svg" alt=""> Stalwarts</div><div class="l">Green mountain icon. Beat Aeronauts</div></div>
+    <div class="kpi or"><div class="v"><img class="em" src="img/emoji/1f300.svg" alt=""> Rovers</div><div class="l">Yellow swirl icon. Beat Stalwarts</div></div>
+    <div class="kpi"><div class="v"><img class="em" src="img/emoji/2601.svg" alt=""> Aeronauts</div><div class="l">Blue cloud icon. Beat Rovers</div></div>
+    <div class="kpi pu"><div class="v"><img class="em" src="img/emoji/1f30a.svg" alt=""> Mariners</div><div class="l">Wave icon. Count as any faction for squad bonuses. Nothing counters them</div></div>
+  </div>
+  <figure class="fig">
+    <div><img src="img/faction-counter.jpg" alt="Faction effect screen: five Stalwarts against five Rovers, each with Troop Health +25% and Counter Damage Bonus +5%"><figcaption>Faction effect screen in battle.</figcaption></div>
+    <ol class="call">
+      <li><b class="k">1</b><span><strong>Green mountain = Stalwarts. Yellow swirl = Rovers.</strong> Check the icon under each hero's name.</span></li>
+      <li><b class="k">2</b><span><strong>The counter arrow</strong> shows which side deals +20% damage. Here Rovers counter Stalwarts.</span></li>
+      <li><b class="k">3</b><span><strong>Same-faction bonus:</strong>
+        <table style="margin-top:4px"><tr><th>Line-up</th><th>2</th><th>2+2</th><th>3</th><th>3+2</th><th>4</th><th>5</th></tr>
+        <tr><td>Final Health</td><td>+2%</td><td>+4%</td><td>+8%</td><td>+10%</td><td>+15%</td><td><b>+25%</b></td></tr>
+        <tr><td>Counter dmg</td><td>no</td><td>no</td><td>no</td><td>yes</td><td>yes</td><td><b>+5%</b></td></tr></table>
+        <span class="muted small">Mariners do not count for counter damage.</span></span></li>
+    </ol>
+  </figure>
+
+  <h3><span class="bar"></span>Best hero positions</h3>
+  <p class="small">These two squads show the recommended positions. The <strong>two slots on the lower-left edge of the board are the front row</strong>. The other three are the back row. Rule for every squad: most HP and defence in front, most damage in the back. Test changes in the Arena, Alliance Siege or the Gold Mine.</p>
+  <div class="pair">
+    <figure class="fig wide"><div><img src="img/squad-stalwarts-5.jpg" alt="Squad 1: five Stalwart heroes at level 150, faction bonus Final Health +25% and Counter Damage Bonus +5%"><figcaption>Squad 1: Stalwarts.</figcaption></div>
+      <ol class="call" style="margin-top:8px">
+        <li><b class="k">F</b><span><strong>Front:</strong> Nikola and Rosie, two tanks (shield icon). They take the first hits.</span></li>
+        <li><b class="k">B</b><span><strong>Back:</strong> Tarzan, Tara and Ray. Tarzan is a tank but goes behind: his ultimate moves him to the enemy, so he arrives with full health.</span></li>
+      </ol></figure>
+    <figure class="fig wide"><div><img src="img/squad-rovers-5.jpg" alt="Squad 2: five Rover heroes at level 150, same faction bonus"><figcaption>Squad 2: Rovers.</figcaption></div>
+      <ol class="call" style="margin-top:8px">
+        <li><b class="k">F</b><span><strong>Front:</strong> Jacob/Joker (the only tank, shield icon) and Layla. They protect the back row.</span></li>
+        <li><b class="k">B</b><span><strong>Back:</strong> Chiron in the centre (main damage), Becca in the corner and Candy.</span></li>
+      </ol></figure>
+  </div>
+
+</section>
+
+<!-- ===================== 3 HEROES ===================== -->
+<section class="ch" id="c3">
+  <div class="ch-head"><div class="ch-num">3</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f9b8.svg" alt=""></i>Heroes</h2><p>Who to build, in which order, and how far.</p></div></div>
+
+  <div class="grid3">
+    <div class="card"><h4>Rarity</h4><p class="small">R (blue), SR (pink), SSR (gold), XSSR (packs). Build the main squad from SSR.</p></div>
+    <div class="card"><h4>Role icon</h4><p class="small">Shield = Tank. Pistol = Gunner. Rifle = Marksman.</p></div>
+    <div class="card"><h4>Talent (4th skill)</h4><p class="small">+20% to +30% to the hero's own stats. Unlocks at 8★ (Rosie, Nikola, Tarzan: all skills L30).</p></div>
+  </div>
+
+  <h3><span class="bar"></span>The F2P Stalwart path</h3>
+  <p class="small">Finish a stage before you start the next.</p>
+  <div class="tl">
+    <div><b>Stage 1</b>Rosie 8★<br>Cook, Sarge, Freya 10★<br>Maddie<br><span class="muted">Rosie skills L30</span></div>
+    <div><b>Stage 2</b>+ Tara 6★<br>replaces Sarge<br><span class="muted">Tara active + passive L25</span></div>
+    <div><b>Stage 3</b>Tara 8★<br>+ Nikola 6★<br>replaces Cook<br><span class="muted">Nikola L25</span></div>
+    <div><b>Stage 4</b>Nikola 8★<br>+ Tarzan 8★<br>replaces Freya<br><span class="muted">Tarzan L25</span></div>
+    <div><b>Stage 5</b>+ Ray 8★<br>replaces Maddie<br><span class="muted">Ray L25</span></div>
+    <div><b>Stage 6</b>Rosie, Tara, Nikola, Tarzan 10★<br>Ray 8★<br><span class="muted">All L30 → L35 → L40</span></div>
+  </div>
+  <div class="note good small">Cook, Sarge and Freya cost little to upgrade. Use them early, then replace them. Maddie only fills slot 5. Do not upgrade her.</div>
+
+  <h3><span class="bar"></span>Main squads</h3>
+  <div class="note warn"><strong><img class="em" src="img/emoji/26a0.svg" alt=""> Current meta: Rovers.</strong> Most players are moving to Rovers, so Stalwart squads are becoming weaker. Move to Rovers from Season 3 onwards. Later, a move to Mariners may be the best choice, but this is not fully tested yet.</div>
+  <div class="grid2">
+    <div class="card"><h4>Stalwarts</h4><p class="small">Rosie, Nikola, Tara, Tarzan, Ray. New XSSR <strong>Lava</strong> usually replaces Ray.</p>
+      <p class="small" style="margin-top:6px"><strong>Front:</strong> Nikola, Rosie &nbsp; <strong>Back:</strong> Tarzan, Tara, Ray<br><span class="muted">Tarzan goes behind: his ultimate moves him to the enemy, so he reaches them with full health.</span></p></div>
+    <div class="card"><h4>Rovers</h4><p class="small">Chiron, Jacob/Joker, Becca, Layla, Candy. Chiron deals the most damage.</p>
+      <p class="small" style="margin-top:6px"><strong>Front:</strong> Jacob/Joker, Layla &nbsp; <strong>Back:</strong> Chiron centre, Becca corner, Candy<br><span class="muted">The front row protects Chiron while he deals damage.</span></p></div>
+    <div class="card"><h4>Mariners</h4><p class="small">Shark, Ragnar, Undine and others. Nothing counters them. Many long-term players plan to move to Mariners 5/0.</p></div>
+    <div class="card"><h4>Aeronauts</h4><p class="small">Kiki is the main damage dealer players name.</p></div>
+  </div>
+
+  <h3><span class="bar"></span>Stars and skills</h3>
+  <div class="grid4">
+    <div class="kpi"><div class="v">490</div><div class="l">fragments for 1★ to 5★</div></div>
+    <div class="kpi"><div class="v">1,300</div><div class="l">fragments for 8★</div></div>
+    <div class="kpi or"><div class="v">1,990</div><div class="l">fragments for 10★</div></div>
+    <div class="kpi gr"><div class="v">1 hero</div><div class="l">at a time until 8★</div></div>
+  </div>
+  <div class="grid2" style="margin-top:10px">
+    <div class="card small"><ul style="margin:0;padding-left:18px">
+      <li>Daily packs let you choose which hero gets fragments.</li>
+      <li>Some star upgrades give a bonus to all heroes, also when that hero is not in the fight. Tap the star rating to check.</li>
+    </ul></div>
+    <div class="card small"><ul style="margin:0;padding-left:18px">
+      <li>Do not level production passives on SR heroes.</li>
+      <li>Lucky passive (stamina) at least L19 to L21. Eva passive (gathering) at least L15.</li>
+      <li>Skill books are not lost if you change faction: the Hero Development Exchange event swaps skill levels.</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ===================== 4 GEAR ===================== -->
+<section class="ch" id="c4">
+  <div class="ch-head"><div class="ch-num">4</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f6e1.svg" alt=""></i>Gear</h2><p>How to read a gear piece, which stats to target and the order to upgrade.</p></div></div>
+
+  <h3><span class="bar"></span>How to read a gear piece</h3>
+  <figure class="fig">
+    <div><img src="img/gear-helmet-6star-l80.jpg" alt="Alloy Helmet, level 80, 6 stars, power 1,798,265. Special stats: Active Skill Damage Reduction 1.16%, Active Skill Damage Bonus 1.14%, Crit MAX +20"><figcaption>Alloy Helmet, L80, 6★.</figcaption></div>
+    <ol class="call">
+      <li><b class="k">1</b><span><strong>Level and stars.</strong> Level 80 is the cap. The five star icons turn red for stars 6 to 10: one red star = 6★.</span></li>
+      <li><b class="k">2</b><span><strong>Base stats.</strong> Hero attack, defence and health plus three troop bonuses. Each slot has one troop bonus higher than the other two: on the helmet it is <strong>Troop Attack</strong> (+28.08%).</span></li>
+      <li><b class="k">3</b><span><strong>Special stats.</strong> Three lines, unlocked at 2★, 4★ and 6★. <span class="leg">Orange</span> = legendary, <span class="epi">purple</span> = epic.</span></li>
+      <li><b class="k">4</b><span><span class="max">MAX</span> means that line has the highest value it can roll. Here: <span class="leg">Crit MAX +20</span>. Keep MAX lines. Lock them with tape when you reforge.</span></li>
+      <li><b class="k">5</b><span><strong>Level bonus stats.</strong> A fixed bonus every 10 levels. L50 and L80 add Damage Bonus or Damage Reduction.</span></li>
+      <li><b class="k">6</b><span><strong>Enhance</strong> adds stars. <strong>Max Level</strong> means the piece is at L80. <strong>Reforge</strong> rerolls the special stats.</span></li>
+    </ol>
+  </figure>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/2b50.svg" alt=""> Reading the stars</h3>
+  <div class="stars">
+    <div><span class="s y">★</span>1★</div>
+    <div><span class="s y">★★★★★</span>5★</div>
+    <div><span class="s"><span class="r">★</span><span class="y">★★★★</span></span>6★</div>
+    <div><span class="s"><span class="r">★★</span><span class="y">★★★</span></span>7★</div>
+    <div><span class="s"><span class="r">★★★★</span><span class="y">★</span></span>9★</div>
+    <div><span class="s r">★★★★★</span>10★</div>
+  </div>
+
+  <h3><span class="bar"></span>Targets for each slot</h3>
+  <div class="grid3">
+    <div class="slot helm"><div class="top"><h4><img class="em" src="img/emoji/26d1.svg" alt=""> Helmet</h4><span>Damage dealers</span></div><div class="body"><dl>
+      <dt>Main troop bonus</dt><dd>Troop Attack</dd>
+      <dt>Legendary target</dt><dd><span class="max">MAX</span>Crit +20</dd>
+      <dt>Also good</dt><dd>Damage Bonus, Active Skill Damage Bonus</dd>
+    </dl></div></div>
+    <div class="slot arm"><div class="top"><h4><img class="em" src="img/emoji/1f9ba.svg" alt=""> Armour</h4><span>Tanks and skill heroes</span></div><div class="body"><dl>
+      <dt>Main troop bonus</dt><dd>Troop Defence</dd>
+      <dt>Legendary target</dt><dd><span class="max">MAX</span>Active Skill Cooldown −0.15 (−15%)</dd>
+      <dt>Also good</dt><dd>Damage Reduction (3.7% seen)</dd>
+    </dl></div></div>
+    <div class="slot grv"><div class="top"><h4><img class="em" src="img/emoji/1f456.svg" alt=""> Greaves</h4><span>Tanks and the whole squad</span></div><div class="body"><dl>
+      <dt>Main troop bonus</dt><dd>Troop Health</dd>
+      <dt>Legendary target</dt><dd>All allied heroes' stats (up to +10%)</dd>
+      <dt>Also good</dt><dd>Damage Bonus (3.54% seen), Auto Attack Damage Bonus</dd>
+    </dl></div></div>
+  </div>
+  <div class="note gold small"><strong><img class="em" src="img/emoji/1f525.svg" alt=""> Reforge rule.</strong> Reroll purple lines until they turn orange. When a line shows <span class="max">MAX</span>, lock it with tape and keep rerolling the others. Tape (locking) opens with Advanced Reforge after 200 reforges.</div>
+
+  <div class="pair">
+    <figure class="fig wide"><div><img src="img/gear-armor-6star-l80.jpg" alt="Alloy Armor, level 80, 6 stars, power 1,895,110. Special stats: Active Skill Damage Reduction 1.86%, Reduces Active Skill Cooldown MAX 0.15, Auto Attack Damage Reduction 1.35%"><figcaption>Armour L80, 6★: <span class="leg">Active Skill Cooldown MAX 0.15</span>. Main troop bonus is Defence (+28.08%).</figcaption></div></figure>
+    <figure class="fig wide"><div><img src="img/gear-greaves-10star-l80.jpg" alt="Alloy Greaves, level 80, 10 stars, power 2,162,548. Special stats: Damage Bonus 3.54%, Increased Healing 1.93%, Increased Healing 1.59%"><figcaption>Greaves L80, 10★ (five red stars). Main troop bonus is Health (+36.72%).</figcaption></div></figure>
+  </div>
+
+  <h3><span class="bar"></span>What level and stars add</h3>
+  <div class="grid3">
+    <div class="kpi or"><div class="v">+50%</div><div class="l">base stats from L60 to L80 (helmet and armour at 6★)</div></div>
+    <div class="kpi"><div class="v">+23%</div><div class="l">base stats from 6★ to 9★ (armour at L80)</div></div>
+    <div class="kpi gr"><div class="v">+21%</div><div class="l">base stats from 7★ to 10★ (greaves at L80)</div></div>
+  </div>
+
+  <div class="pair">
+    <figure class="fig wide"><div><img src="img/gear-helmet-6star-l60.jpg" alt="Alloy Helmet, level 60, 6 stars, power 1,306,282"><figcaption>Helmet L60, 6★: 1.31M power.</figcaption></div></figure>
+    <figure class="fig wide"><div><img src="img/gear-armor-9star-l80.jpg" alt="Alloy Armor, level 80, 9 stars, power 2,143,632. Special stats: Damage Reduction 3.7%, Auto Attack Damage Bonus 1.35%, Active Skill Damage Bonus 1.65%"><figcaption>Armour L80, 9★ (four red stars): 2.14M power.</figcaption></div></figure>
+  </div>
+
+  <h3><span class="bar"></span>Upgrade order</h3>
+  <div class="steps">
+    <div><span><strong>Gold gear on Rosie</strong> (or your main damage dealer), then the rest of the main squad. Purple gear on everyone else.</span></div>
+    <div><span><strong>Level with bolts to multiples of 10</strong> (L10, L20 …). These levels give the largest power increase.</span></div>
+    <div><span><strong>Stars at the same pace:</strong> all pieces to 2★, then 4★, then 6★. Each opens a special-stat line.</span></div>
+    <div><span><strong>Reforge to orange, keep MAX lines.</strong> Match the stats to the hero's role.</span></div>
+    <div><span><strong>Keep one purple set in reserve</strong> for the next new hero.</span></div>
+  </div>
+
+  <div class="note warn"><strong><img class="em" src="img/emoji/26a0.svg" alt=""> Level purple gear and use it to upgrade gold gear.</strong> The gold piece gets the full benefit of the levels. <strong>Do not upgrade gold gear with levelled gold gear.</strong> You get back only about half the levels, and the bolts come back as white bolts, which give no event points.</div>
+
+  <div class="grid2">
+    <div class="card"><h4>Helmet level, power per bolt</h4>
+      <table><tr><th>Level</th><th class="n">Battle Power</th><th class="n">Battle Power per bolt</th></tr>
+      <tr><td>2</td><td class="n">22,133</td><td class="n">11.07</td></tr>
+      <tr><td>10</td><td class="n">60,989</td><td class="n">3.75</td></tr>
+      <tr><td>20</td><td class="n">120,525</td><td class="n">3.02</td></tr>
+      <tr><td>40</td><td class="n">256,589</td><td class="n">1.54</td></tr>
+      <tr><td>70</td><td class="n">530,771</td><td class="n">0.83</td></tr>
+      <tr><td>80</td><td class="n">637,896</td><td class="n">0.19</td></tr></table></div>
+    <div class="card"><h4>Gear stars, power per gold piece</h4>
+      <table><tr><th>Star</th><th class="n">Pieces</th><th class="n">Value</th></tr>
+      <tr><td>0→1</td><td class="n">1</td><td class="n">100%</td></tr>
+      <tr><td>1→3</td><td class="n">1 each</td><td class="n">40%</td></tr>
+      <tr><td>3→5</td><td class="n">2 each</td><td class="n">30%</td></tr>
+      <tr><td>5→8</td><td class="n">3 each</td><td class="n">20%</td></tr>
+      <tr><td>8→9</td><td class="n">4</td><td class="n">15%</td></tr>
+      <tr><td>9→10</td><td class="n">5</td><td class="n">12%</td></tr></table>
+      <p class="small muted" style="margin-top:6px">0★ to 6★ = 10 pieces per item, 150 for a full squad.</p></div>
+  </div>
+  <div class="note small"><strong>Red (super-alloy) gear.</strong> A maxed piece ascends for about 30 gold pieces. Players report a small power increase for the cost. If you do not spend money, stop at 6★ and use spare pieces on a second squad or the third titan.</div>
+</section>
+
+<!-- ===================== 5 WEAPONS ===================== -->
+<section class="ch" id="c5">
+  <div class="ch-head"><div class="ch-num">5</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f52b.svg" alt=""></i>Signature weapons</h2><p>Upgrade the weapons that give a bonus to all heroes first.</p></div></div>
+
+  <div class="pair">
+    <figure class="fig wide"><div><img src="img/weapon-jacob-madgun.jpg" alt="Laughing Madgun, Jacob's signature gear, level 5: increases 18% attack and 18% defense of all heroes. Level 10: auto attacks have 20% chance to steal 10% of enemy defense for 5 seconds"><figcaption>Jacob/Joker: Laughing Madgun, L5.</figcaption></div></figure>
+    <figure class="fig wide"><div><img src="img/weapon-chiron-godpiercer.jpg" alt="Godpiercer, Chiron's signature gear, level 5: increases 18% attack and 18% defense of all heroes. Level 10: crit +25"><figcaption>Chiron: Godpiercer, L5.</figcaption></div></figure>
+  </div>
+
+  <div class="grid3">
+    <div class="kpi or"><div class="v">+18% / +18%</div><div class="l">attack and defence for all heroes at L5 (Jacob/Joker and Chiron)</div></div>
+    <div class="kpi"><div class="v">L5</div><div class="l">first target: unlocks the skill and lets you transfer the weapon</div></div>
+    <div class="kpi gr"><div class="v">L15</div><div class="l">maximum level</div></div>
+  </div>
+
+  <h3><span class="bar"></span>How weapons work</h3>
+  <div class="grid3">
+    <div class="card small"><h4>Skill in three parts</h4>A base effect that grows with level, an extra effect at L10 and another at L15.</div>
+    <div class="card small"><h4>Who gets the bonus</h4>"All Heroes" in the text = every hero in the squad. No "all" = that hero only. A weapon never helps other squads.</div>
+    <div class="card small"><h4>Stats</h4>At L5 each weapon adds 9.36K attack, 1.87K defence and 624K health to its hero (257K power).</div>
+  </div>
+
+  <h3><span class="bar"></span>Best practices</h3>
+  <div class="steps">
+    <div><span><strong>Buy weapons only for heroes who stay in your main squad.</strong></span></div>
+    <div><span><strong>Upgrade one weapon to L5 before you start the next.</strong> One at L5 and one at L1 is more useful than two at L3.</span></div>
+    <div><span><strong>"All heroes" weapons first,</strong> then the weapon of your main damage dealer.</span></div>
+    <div><span><strong>Then L10 and L15</strong> for the extra effects. In the end every main-squad hero has a weapon.</span></div>
+    <div><span><strong>Changing faction?</strong> The Hero Development Exchange event moves weapon levels between two SSR heroes. At least one weapon must be L5 or higher.</span></div>
+  </div>
+
+  <h3><span class="bar"></span>Upgrade order</h3>
+  <div class="grid3">
+    <div class="card"><h4>Stalwarts</h4><ol class="small" style="margin:0;padding-left:18px">
+      <li><strong>Rosie</strong>: attack + defence, all heroes</li><li><strong>Tara</strong>: defence, all heroes</li><li><strong>Tarzan</strong>: defence, all heroes</li><li>Nikola: own defence</li><li>Ray: own attack</li></ol>
+      <p class="small muted" style="margin-top:6px">With Lava: Rosie's guitar and Lava's claws first.</p></div>
+    <div class="card"><h4>Rovers</h4><ol class="small" style="margin:0;padding-left:18px">
+      <li><strong>Jacob/Joker</strong>: attack + defence, all heroes</li><li><strong>Chiron</strong>: attack + defence, all heroes</li><li>Becca: own attack and crit</li><li>Layla: own attack and defence</li><li>Candy: own defence and HP</li></ol></div>
+    <div class="card"><h4>Mariners</h4><ol class="small" style="margin:0;padding-left:18px">
+      <li><strong>Undine</strong>: the only Mariner weapon for all heroes. L15 first</li><li>Others: L10 each</li></ol>
+      <p class="small muted" style="margin-top:6px"></p></div>
+  </div>
+
+  <h3><span class="bar"></span>Weapon effects</h3>
+  <div class="tw"><table>
+    <tr><th>Hero</th><th>Weapon</th><th>Bonus for</th><th>Base (at max)</th><th>L10</th><th>L15</th></tr>
+    <tr class="hl"><td>Jacob/Joker</td><td>Laughing Madgun</td><td><b>All heroes</b></td><td>Attack and defence (+18% each at L5)</td><td>20% chance: steal 10% enemy defence for 5 s, stacks</td><td>Doll bombs inflict Fear</td></tr>
+    <tr class="hl"><td>Chiron</td><td>Godpiercer</td><td><b>All heroes</b></td><td>Attack and defence (+18% each at L5)</td><td>Crit +25</td><td>Auto attack: 30% chance to raise crit</td></tr>
+    <tr><td>Rosie</td><td>Apocalypse Guitar</td><td><b>All heroes</b></td><td>Attack +30%, defence +30%</td><td>30% chance: auto-attack damage taken −20%</td><td>Active skill damage +5%, target defence −20%</td></tr>
+    <tr><td>Tara</td><td>Fenrir Hammer</td><td><b>All heroes</b></td><td>Defence +30%</td><td>First active-skill damage taken −12.5%</td><td>Front-row attack +5%</td></tr>
+    <tr><td>Tarzan</td><td>Thunderfist</td><td><b>All heroes</b></td><td>Defence +30%</td><td>Auto-attack damage +4%, taken −4%</td><td>HP +5%, enemy attack −5%</td></tr>
+    <tr><td>Nikola</td><td>Voltstorm</td><td>Nikola</td><td>Defence +60%</td><td>Shield +20%</td><td>While shielded: attack and defence +7.5%</td></tr>
+    <tr><td>Ray</td><td>Obsidian Grenade</td><td>Ray</td><td>Attack +60%</td><td>Auto-attack damage +10%</td><td>Same target +5% damage, stacks</td></tr>
+    <tr><td>Becca</td><td>Horizon Hunter</td><td>Becca</td><td>Attack +60%</td><td>Active skill crit +35</td><td>Active skill damage +7.5%</td></tr>
+    <tr><td>Layla</td><td>Whip of Revival</td><td>Layla</td><td>Attack +30%, defence +30%</td><td>Healing +8%</td><td>Front-row defence +20%</td></tr>
+    <tr><td>Candy</td><td>Ripple</td><td>Candy</td><td>Defence +30%, HP +30%</td><td>Healing +8%</td><td>Enemy attack −5%</td></tr>
+  </table></div>
+
+  <div class="grid2">
+    <div class="card small"><h4>When to buy</h4>New heroes arrive about every 2 weeks: week 1 the hero, week 2 its weapon. The launch offer does not come back in the same form, so save weapon coins before the weapon week.</div>
+    <div class="card small"><h4>Weapon coins</h4>Turbo Turtle daily chest at 10M points (weapon fragments), Turtle rank rewards, the Reservoir shop and event shops. If you spend money, players put titans before weapons.</div>
+    <div class="card small"><h4>Signature gear fragments</h4>Since 23 Nov they give points. Use them on Friday: 266,600 VS points each, and Turtle counts them too. Monday also counts in both.</div>
+  </div>
+</section>
+
+<!-- ===================== 6 SQUAD POWER ===================== -->
+<section class="ch" id="c6">
+  <div class="ch-head"><div class="ch-num">6</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f4aa.svg" alt=""></i>Other squad power</h2><p>Chief Collection, pets and titans.</p></div></div>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f392.svg" alt=""> Chief Collection</h3>
+  <div class="tl" style="grid-template-columns:repeat(6,1fr)">
+    <div><b><img class="em" src="img/emoji/1f52a.svg" alt=""> 1 Knife</b>attack</div><div><b>⌚ 2 Watch</b>attack</div><div><b><img class="em" src="img/emoji/1f526.svg" alt=""> 3 Flashlight</b>attack</div><div><b><img class="em" src="img/emoji/1f4d6.svg" alt=""> 4 Book</b></div><div><b><img class="em" src="img/emoji/1f52d.svg" alt=""> 5 Binoculars</b></div><div><b><img class="em" src="img/emoji/1f9ed.svg" alt=""> 6 Compass</b></div>
+  </div>
+  <div class="grid2" style="margin-top:10px">
+    <div class="card small"><h4>One colour at a time</h4>Take all six items to the end of the current colour, in the order above, before you move any item to the next colour. The collection bonus needs all items at the same colour. Every item gives the same Battle Power.</div>
+    <div class="card small"><h4>Colours</h4>Grey L10 → green L15 → blue L15 → purple L20 → gold L30. Spare hero fragments buy blueprints at the Recycling Center.</div>
+  </div>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f43e.svg" alt=""> Pets</h3>
+  <div class="note small">Each squad equips one pet. Its skills help that squad only. The stats from <strong>every</strong> pet's level and stars count for all squads.</div>
+  <div class="grid3">
+    <div class="kpi gr"><div class="v"><img class="em" src="img/emoji/1f356.svg" alt=""> Feed all</div><div class="l">to the rarity cap: blue L10, purple L30, gold L40</div></div>
+    <div class="kpi"><div class="v"><img class="em" src="img/emoji/1f98c.svg" alt=""> Deer</div><div class="l">free pick: back row +8% attack, front row +20% defence. From gold Intel eggs</div></div>
+    <div class="kpi or"><div class="v"><img class="em" src="img/emoji/1f43b.svg" alt=""> Bear</div><div class="l">paid pick: lowers attack and attack speed of 5 enemies. Packs only. Buy only the 499 unlock pack</div></div>
+  </div>
+  <div class="grid2" style="margin-top:10px">
+    <div class="card small"><h4>Which pet per squad</h4>Stalwarts: Deer. Rovers: Bear if you have it, otherwise Deer. More attack = Bear. More healing = Deer.</div>
+    <div class="card small"><h4>All pets</h4><img class="em" src="img/emoji/1f43a.svg" alt=""> Wolf: squad attack. <img class="em" src="img/emoji/1f417.svg" alt=""> Boar: front row. <img class="em" src="img/emoji/1f411.svg" alt=""> Sheep: heals. <img class="em" src="img/emoji/1f422.svg" alt=""> Turtle: lowers enemy attack. <img class="em" src="img/emoji/1f9ad.svg" alt=""> Seal: hospital. Eggs from Intel radar pet missions and pet passes. Use pet marks and pet food on Tuesday: both VS and Turtle give points.</div>
+  </div>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f409.svg" alt=""> Titans</h3>
+  <div class="tl" style="grid-template-columns:repeat(4,1fr)">
+    <div><b>Griffin 15★</b>first talent</div><div><b>Second titan 15★</b></div><div><b>Griffin 30★</b>unlocks a heal</div><div><b>Second titan 30★</b>then levels in steps of 50</div>
+  </div>
+  <p class="small" style="margin-top:8px">The third titan (Reaper, top 100 in Rise of a Legend) uses the talents of one of the first two, so upgrade one titan's talents first. Level it with cogs, blue bolts and chief parts.</p>
+</section>
+
+<!-- ===================== 7 SETTLEMENT ===================== -->
+<section class="ch" id="c7">
+  <div class="ch-head"><div class="art" style="background-image:url(img/art/build.jpg)"></div><div class="ch-num">7</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f3d7.svg" alt=""></i>Settlement</h2><p>The Power Plant decides how fast everything else grows.</p></div></div>
+
+  <div class="grid4">
+    <div class="kpi"><div class="v"><img class="em" src="img/emoji/26a1.svg" alt=""> PP30</div><div class="l">Power Plant maximum level</div></div>
+    <div class="kpi or"><div class="v">268 days</div><div class="l">base build time PP1→30, one builder, no buffs</div></div>
+    <div class="kpi gr"><div class="v">19 days</div><div class="l">to PP20</div></div>
+    <div class="kpi pu"><div class="v">120 days</div><div class="l">to PP26</div></div>
+  </div>
+
+  <div class="note good"><strong>Rule from PP11 to PP30.</strong> Odd levels need <strong>Comms Outpost</strong> and <strong>Barracks 1</strong> one level below. Even levels need <strong>Lab 1</strong> one level below plus one extra building. So keep Lab 1, Comms Outpost and Barracks 1 one level below the Power Plant.</div>
+
+  <h3><span class="bar"></span>Extra buildings to have ready</h3>
+  <div class="tw"><table>
+    <tr><th>Before</th><th>You also need</th><th>Start it at</th></tr>
+    <tr><td>PP14</td><td>Barracks 1 L10</td><td>PP11</td></tr>
+    <tr><td>PP18</td><td>Garrison L13</td><td>PP14</td></tr>
+    <tr><td>PP20</td><td>Garrison L16</td><td>PP18</td></tr>
+    <tr><td>PP22</td><td>Warbringer statue L14</td><td>PP14 (unlocks)</td></tr>
+    <tr><td>PP24</td><td>Hero Academy L18</td><td>PP19</td></tr>
+    <tr><td>PP26</td><td>Golden Aegis statue L20</td><td>PP17 (unlocks)</td></tr>
+    <tr><td>PP28</td><td>Guardian of Life statue L23</td><td>PP18 (unlocks)</td></tr>
+    <tr><td>PP29</td><td>Golden Aegis L24</td><td>keep upgrading</td></tr>
+    <tr><td>PP30</td><td>Barracks 1 L29, Warbringer L26</td><td>keep upgrading</td></tr>
+  </table></div>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/26a1.svg" alt=""> Full Power Plant table</h3>
+  <p class="small muted">Costs and times before buffs. <span class="flag">?</span> = the value does not follow the levels before and after it, check in game.</p>
+  <div class="tw long">
+<!--PP_TABLE-->
+<table><tr><th>Level</th><th class="n">Food</th><th class="n">Wood</th><th class="n">Metal</th><th class="n">Gas</th><th class="n">Time</th><th>Requires</th></tr><tr><td><b>PP2</b></td><td class="n">150</td><td class="n">150</td><td class="n">-</td><td class="n">-</td><td class="n">0:03</td><td>House 1 L1</td></tr><tr><td><b>PP3</b></td><td class="n">400</td><td class="n">300</td><td class="n">200</td><td class="n">-</td><td class="n">0:04</td><td>Lumberyard L2</td></tr><tr><td><b>PP4</b></td><td class="n">2,400</td><td class="n">2,000</td><td class="n">500</td><td class="n">-</td><td class="n">0:05</td><td>Greenhouse L3, Hero Base L1</td></tr><tr><td><b>PP5</b></td><td class="n">6,400</td><td class="n">2,500</td><td class="n">2,000</td><td class="n">-</td><td class="n">3m</td><td>Smelter L3, Artifact Workshop L2</td></tr><tr><td><b>PP6</b></td><td class="n">4,000</td><td class="n">6,000</td><td class="n">10,000</td><td class="n">-</td><td class="n">20m</td><td>Lumberyard L5, Artifact Workshop L3</td></tr><tr><td><b>PP7</b></td><td class="n">3,600</td><td class="n">12,000</td><td class="n">4,800</td><td class="n">-</td><td class="n">30m</td><td>Greenhouse L5, Intel Post L1</td></tr><tr><td><b>PP8</b></td><td class="n">-</td><td class="n">48,000</td><td class="n">12,000</td><td class="n">-</td><td class="n">2h 15m</td><td>Barracks 1 L1, Artifact Workshop L5</td></tr><tr><td><b>PP9</b></td><td class="n">7,224</td><td class="n">241,224</td><td class="n">46,802</td><td class="n">-</td><td class="n">4h 20m</td><td>Coal Mine L1</td></tr><tr class="hl"><td><b>PP10</b></td><td class="n">351K</td><td class="n">673K</td><td class="n">64K</td><td class="n">-</td><td class="n">6h</td><td>Hospital L1</td></tr><tr><td><b>PP11</b></td><td class="n">788K</td><td class="n">1.12M</td><td class="n">91K</td><td class="n">-</td><td class="n">6h 37m</td><td>Lab 1 L5, Barracks 1 L3</td></tr><tr><td><b>PP12</b></td><td class="n">1.80M</td><td class="n">1.98M</td><td class="n">114K</td><td class="n">-</td><td class="n">8h 38m</td><td>Comms Outpost L5, Barracks 1 L5</td></tr><tr><td><b>PP13</b></td><td class="n">3.15M</td><td class="n">3.15M</td><td class="n">300K</td><td class="n">-</td><td class="n">10h 35m</td><td>Comms Outpost L8, Barracks 1 L6</td></tr><tr><td><b>PP14</b></td><td class="n">3.72M</td><td class="n">3.72M</td><td class="n">600K</td><td class="n">-</td><td class="n">13h 5m</td><td>Lab 1 L8, Barracks 1 L10</td></tr><tr><td><b>PP15</b></td><td class="n">4.57M</td><td class="n">4.57M</td><td class="n">914K</td><td class="n">-</td><td class="n">17h 39m</td><td>Comms Outpost L13, Barracks 1 L14</td></tr><tr><td><b>PP16</b></td><td class="n">6.73M</td><td class="n">673K <span class="flag">?</span></td><td class="n">1.35M</td><td class="n">336K</td><td class="n">1d 4h</td><td>Lab 1 L13, Barracks 1 L15</td></tr><tr><td><b>PP17</b></td><td class="n">8.49M</td><td class="n">8.49M</td><td class="n">1.70M</td><td class="n">424K</td><td class="n">1d 11h</td><td>Comms Outpost L16, Barracks 1 L16</td></tr><tr><td><b>PP18</b></td><td class="n">11.73M</td><td class="n">11.73M</td><td class="n">2.35M</td><td class="n">586K</td><td class="n">2d 5h</td><td>Lab 1 L17, Garrison L13</td></tr><tr><td><b>PP19</b></td><td class="n">16.32M</td><td class="n">16.32M</td><td class="n">3.27M</td><td class="n">816K</td><td class="n">4d 6h</td><td>Comms Outpost L18, Barracks 1 L18</td></tr><tr class="hl"><td><b>PP20</b></td><td class="n">22.66M</td><td class="n">22.66M</td><td class="n">4.54M</td><td class="n">1.14M</td><td class="n">6d 14h</td><td>Lab 1 L19, Garrison L16</td></tr><tr><td><b>PP21</b></td><td class="n">31.57M</td><td class="n">31.57M</td><td class="n">6.32M</td><td class="n">1.58M</td><td class="n">8d 22h</td><td>Comms Outpost L20, Barracks 1 L20</td></tr><tr><td><b>PP22</b></td><td class="n">43.72M</td><td class="n">43.72M</td><td class="n">8.75M</td><td class="n">2.19M</td><td class="n">12d 10h</td><td>Lab 1 L21, Warbringer L14</td></tr><tr><td><b>PP23</b></td><td class="n">61.00M</td><td class="n">61.00M</td><td class="n">12.20M</td><td class="n">3.05M</td><td class="n">17d 9h</td><td>Comms Outpost L22, Barracks 1 L22</td></tr><tr><td><b>PP24</b></td><td class="n">87.46M</td><td class="n">87.46M</td><td class="n">17.50M</td><td class="n">4.38M</td><td class="n">18d 8h</td><td>Lab 1 L23, Hero Academy L18</td></tr><tr><td><b>PP25</b></td><td class="n">119.86M</td><td class="n">119.86M</td><td class="n">23.98M</td><td class="n">6.00M</td><td class="n">20d 19h</td><td>Comms Outpost L24, Barracks 1 L24</td></tr><tr class="hl"><td><b>PP26</b></td><td class="n">136.52M</td><td class="n">136.52M</td><td class="n">27.31M</td><td class="n">6.38M</td><td class="n">23d 5h</td><td>Lab 1 L25, Golden Aegis L20</td></tr><tr><td><b>PP27</b></td><td class="n">161.98M</td><td class="n">161.98M</td><td class="n">3.24M <span class="flag">?</span></td><td class="n">8.10M</td><td class="n">32d 17h</td><td>Comms Outpost L26, Barracks 1 L26</td></tr><tr><td><b>PP28</b></td><td class="n">184.14M</td><td class="n">184.14M</td><td class="n">36.83M</td><td class="n">9.21M</td><td class="n">35d 10h</td><td>Lab 1 L27, Guardian of Life L23</td></tr><tr><td><b>PP29</b></td><td class="n">220.30M</td><td class="n">220.30M</td><td class="n">14.06M <span class="flag">?</span></td><td class="n">11.02M</td><td class="n">38d 18h</td><td>Comms Outpost L28, Barracks 1 L28, Golden Aegis L24</td></tr><tr class="hl"><td><b>PP30</b></td><td class="n">255.94M</td><td class="n">255.94M</td><td class="n">51.19M</td><td class="n">21.80M</td><td class="n">42d 1h</td><td>Lab 1 L29, Barracks 1 L29, Warbringer L26</td></tr></table>
+<!--/PP_TABLE-->
+  </div>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f528.svg" alt=""> Builders and buffs</h3>
+  <div class="grid3">
+    <div class="card small"><h4>Free second builder</h4>Rent it for 24 h in Turbo Turtle. If the rental ends during a build, the build still finishes. Start your longest build just before it ends.</div>
+    <div class="card small"><h4>Buff first</h4>Governor's Chief Strategist (+10%) and the season +15% skill only work on jobs started after them.</div>
+    <div class="card small"><h4>Free speedups</h4>Each Infected Monster help box: 5 min, chance of 15 min. Arkadia and State Clash stages: 20 h.</div>
+  </div>
+  <p class="small muted">Research order and strategy: see chapter 8.</p>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f33e.svg" alt=""> Economy and defence</h3>
+  <div class="grid2">
+    <div class="card small"><h4>Gathering</h4>All squads except main. 24 h gathering bonus (up-arrow → Development → Gathering Bonus, 600 diamonds). The alliance Harvest skill adds to it.</div>
+    <div class="card small"><h4>Survivors</h4>Upgrade interiors of houses, kitchen and production buildings. Soup only. Complete requests. Over 70% mood they send gifts. Keep needs above 30%.</div>
+    <div class="card small"><h4>Free boosts</h4>Ferris Wheel: 9 fragments from re-exploring island locations, L1 = +20% defence. Bonuses of all permanent skins apply at the same time.</div>
+    <div class="card small"><h4>Defence</h4>Before Arkadia, Reservoir or Saturday VS: remove all teams except main from the garrison. Keep at least one squad at home.</div>
+  </div>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f5ff.svg" alt=""> Late game and seasons</h3>
+  <div class="grid3">
+    <div class="card small"><h4>Golden statues</h4>Warbringer (PP14), Golden Aegis (PP17), Guardian of Life (PP18). Each to L30. Statue level needs the same Power Plant level.</div>
+    <div class="card small"><h4>Steles (PP30)</h4>Blessed Healing: more of your lost troops go to hospital. Cursed Wound: more enemy troops die.</div>
+    <div class="card small"><h4>Season buildings</h4>Main building and 4 production buildings to L30 first, others at L1. Main building L26 gives SR→SSR coins.</div>
+  </div>
+</section>
+
+<!-- ===================== RESEARCH ===================== -->
+<section class="ch" id="cR">
+  <div class="ch-head"><div class="art" style="background-image:url(img/art/explore.jpg)"></div><div class="ch-num">8</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f52c.svg" alt=""></i>Research</h2><p>Which branch to research, in which order, and what to skip.</p></div></div>
+
+  <div class="grid4">
+    <div class="kpi"><div class="v">33K</div><div class="l">medals: full Alliance Duel branch</div></div>
+    <div class="kpi or"><div class="v">248K</div><div class="l">medals: full Special Forces branch (unlocks T10)</div></div>
+    <div class="kpi pu"><div class="v">376K</div><div class="l">medals: one faction branch</div></div>
+    <div class="kpi gr"><div class="v">Wednesday</div><div class="l">the day to spend medals and Duel coins</div></div>
+  </div>
+
+  <h3><span class="bar"></span>When each branch unlocks</h3>
+  <div class="tl" style="grid-template-columns:repeat(5,1fr)">
+    <div><b>From the start</b>Development, Economic, Heroes, Troops, Intel Post</div>
+    <div><b>Lab 1 L10</b>Alliance Duel</div>
+    <div><b>Heroes 57%</b>Infected Conquest</div>
+    <div><b>Duel 66% + Lab 1 L15</b>Special Forces<br><span class="muted">Duel 70% + Lab 1 L17: Doomsday Express</span></div>
+    <div><b>Special Forces 100%</b>Faction power: Stalwarts, Rovers, Aeronauts or Mariners</div>
+  </div>
+  <p class="small muted">Skill names in game can differ slightly.</p>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f9ed.svg" alt=""> Research roadmap: what to research next</h3>
+  <p class="small">Follow the phases from top to bottom. Each phase starts when its condition is met. Keep the Lab busy at all times.</p>
+  <div class="flow">
+    <div class="ph">
+      <div class="ph-n">1</div>
+      <div class="ph-b">
+        <div class="ph-h"><h4>First week: speed</h4><span class="gate">From the start</span></div>
+        <ul>
+          <li><strong>Development:</strong> research speed and construction speed nodes.</li>
+          <li><strong>Heroes:</strong> research the branch to 57%.</li>
+        </ul>
+        <div class="next">Next when Heroes reaches 57% → Infected Conquest unlocks</div>
+      </div>
+    </div>
+    <div class="arrow">▼</div>
+    <div class="ph">
+      <div class="ph-n">2</div>
+      <div class="ph-b">
+        <div class="ph-h"><h4>Weeks 1 to 2: free speedups</h4><span class="gate">Heroes 57%</span></div>
+        <ul>
+          <li><strong>Infected Conquest:</strong> "Unholy infected: speedup items" to +1 or +2 (green 5-minute boxes), then "Infected: speedup items" (white 1-minute boxes) and <strong>Random Box</strong>.</li>
+          <li><strong>Economic:</strong> gathering skills in between. Skip production.</li>
+        </ul>
+        <div class="next">Next when Lab 1 reaches L10 → Alliance Duel unlocks</div>
+      </div>
+    </div>
+    <div class="arrow">▼</div>
+    <div class="ph">
+      <div class="ph-n">3</div>
+      <div class="ph-b">
+        <div class="ph-h"><h4>Alliance Duel: better rewards</h4><span class="gate">Lab 1 L10</span></div>
+        <ul>
+          <li>Research the path to the <strong>last skill (7 to 9 reward chests)</strong> as fast as you can.</li>
+          <li>Take <strong>Competition Master</strong> to the maximum on the way.</li>
+          <li><strong>Intel Post</strong> in gaps: Signal Boost (both) and Storage Increase. You can store up to 41 Intel Missions, so save them for VS days.</li>
+        </ul>
+        <div class="next">Next when Duel reaches 66% and Lab 1 reaches L15 → Special Forces unlocks</div>
+      </div>
+    </div>
+    <div class="arrow">▼</div>
+    <div class="ph hl">
+      <div class="ph-n">4</div>
+      <div class="ph-b">
+        <div class="ph-h"><h4>Special Forces: the road to T10</h4><span class="gate">Duel 66% + Lab 1 L15</span></div>
+        <ul>
+          <li>Research the <strong>whole branch</strong> (248K medals). Start new levels <strong>on Wednesdays</strong>, with speedups from Random Boxes.</li>
+          <li>On other days: Duel first row (radar, speedups, hero summons) to 10/10, and the rest of Economic gathering.</li>
+          <li><strong>Choose your long-term faction now</strong>, before T10.</li>
+        </ul>
+        <div class="next">Next when Special Forces reaches 100% → T10 and faction research unlock</div>
+      </div>
+    </div>
+    <div class="arrow">▼</div>
+    <div class="ph">
+      <div class="ph-n">5</div>
+      <div class="ph-b">
+        <div class="ph-h"><h4>Faction power: one faction</h4><span class="gate">Special Forces 100%</span></div>
+        <ul>
+          <li>Research the branch of your main squad's faction only (376K medals, 2 to 3 seasons).</li>
+          <li>Past 50%, a 5/0 squad of that faction is clearly the strongest.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2" style="margin-top:12px">
+    <div class="card small"><h4>Later, when Barracks 1 is about L22 to L26</h4>Development: hospital and barracks nodes, Alliance Research and Alliance Construction, Efficient Healing and Efficient Training (from T9), Survival Training. Then Troops and the Intel Post filter skills (fewer blue, more gold missions).</div>
+    <div class="card small" style="border-color:#f3c2bc;background:var(--red-soft)"><h4><img class="em" src="img/emoji/1f6ab.svg" alt=""> Skip</h4>Doomsday Express while medals can go into T10 or your faction. Troops: Power Training. Economic: production skills (except Resource Production in seasons). A second faction branch.</div>
+  </div>
+
+  <h3><span class="bar"></span><img class="em" src="img/emoji/1f4a1.svg" alt=""> Research strategy</h3>
+  <div class="grid2">
+    <div class="card small"><ul style="margin:0;padding-left:18px">
+      <li><strong>Turn on buffs first.</strong> Research buffs only work on research you start after the buff.</li>
+      <li><strong>Spend Duel coins and medals on Wednesday.</strong> Points count on the day you spend them, not the day the research finishes.</li>
+      <li><strong>Random Box</strong> is the main free source of speedups for Special Forces. Clear 100 infected every day.</li>
+    </ul></div>
+    <div class="card small"><ul style="margin:0;padding-left:18px">
+      <li><strong>Choose your faction before T10.</strong> One faction branch takes 2 to 3 seasons of active play. Medals for two branches are not realistic.</li>
+      <li>Faction research does not apply to Mariners in another faction's squad.</li>
+      <li>A second Lab slot comes only with paid offers.</li>
+    </ul></div>
+  </div>
+</section>
+
+<!-- ===================== 9 WEEKLY PLAN ===================== -->
+<section class="ch" id="c8">
+  <div class="ch-head"><div class="ch-num">9</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f4c5.svg" alt=""></i>Weekly plan</h2><p>Spend items on the days when VS and Turbo Turtle both give points for them.</p></div></div>
+
+  <div class="grid4">
+    <div class="kpi"><div class="v"><img class="em" src="img/emoji/1f528.svg" alt=""> Tuesday</div><div class="l">construction speedups, pets, nuclear fuel, trucks</div></div>
+    <div class="kpi or"><div class="v"><img class="em" src="img/emoji/1f9ea.svg" alt=""> Wednesday</div><div class="l">research speedups, titan items, Duel medals</div></div>
+    <div class="kpi gr"><div class="v"><img class="em" src="img/emoji/1f9b8.svg" alt=""> Thursday</div><div class="l">drafts, recruits, fragments, skill books</div></div>
+    <div class="kpi"><div class="v"><img class="em" src="img/emoji/1f6e1.svg" alt=""> Friday</div><div class="l">signature gear fragments, gear scraps, blueprints</div></div>
+    <div class="kpi pu"><div class="v"><img class="em" src="img/emoji/2694.svg" alt=""> Saturday</div><div class="l">battle day: speedups, titan, nuclear fuel, no gathering</div></div>
+  </div>
+
+  <h3><span class="bar"></span>What gives points each day</h3>
+  <p class="small"><span class="pill both">Green</span> = both events give points. Updated for the 23 Nov 2026 changes. Points per item and CRL triple times: <a href="vs-turtle-daily.html">VS + Turtle daily plan</a>.</p>
+  <div class="tw">
+<!--CAL_TABLE-->
+<table><tr><th>Day</th><th>Alliance Duel (VS)</th><th>Turbo Turtle</th></tr><tr><td><b>Monday</b></td><td><span class="pill">Intel Missions</span> <span class="pill">Stamina use</span> <span class="pill">Gathering</span> <span class="pill both">Gear scraps</span> <span class="pill both">Signature gear fragments</span> <span class="pill both">Troop training</span></td><td><span class="pill both">Signature gear fragments</span> <span class="pill both">Gear upgrade + enhance</span> <span class="pill">Reforge hammers + anchors</span> <span class="pill both">Troop training</span></td></tr><tr><td><b>Tuesday</b></td><td><span class="pill both">Construction (speedups)</span> <span class="pill both">Pet marks</span> <span class="pill both">Pet food</span> <span class="pill both">Nuclear fuel</span> <span class="pill">Truck A+</span> <span class="pill">Dire Dispatch S</span></td><td><span class="pill both">Construction (speedups)</span> <span class="pill both">Pet marks</span> <span class="pill both">Pet upgrades</span> <span class="pill both">Nuclear fuel</span></td></tr><tr><td><b>Wednesday</b></td><td><span class="pill">Intel Missions</span> <span class="pill both">Titan</span> <span class="pill both">Research (speedups)</span> <span class="pill">Duel medals</span></td><td><span class="pill both">Titan</span> <span class="pill both">Research (speedups)</span></td></tr><tr><td><b>Thursday</b></td><td><span class="pill both">Drafts + recruits</span> <span class="pill both">Hero fragments</span> <span class="pill both">Skill books</span></td><td><span class="pill both">Drafts + recruits</span> <span class="pill both">Hero fragments</span> <span class="pill both">Skill books</span></td></tr><tr><td><b>Friday</b></td><td><span class="pill">Intel Missions</span> <span class="pill both">Signature gear fragments</span> <span class="pill both">Gear scraps</span> <span class="pill both">Blueprints + general parts</span> <span class="pill">Speedups</span> <span class="pill">Troop training</span></td><td><span class="pill both">Signature gear fragments</span> <span class="pill both">Gear scraps</span> <span class="pill both">Blueprints + general parts</span> <span class="pill">Gear reforge</span></td></tr><tr><td><b>Saturday</b></td><td><span class="pill">Truck A+</span> <span class="pill">Dire Dispatch S</span> <span class="pill both">Research (speedups)</span> <span class="pill both">Construction (speedups)</span> <span class="pill both">Titan</span> <span class="pill both">Hero fragments</span> <span class="pill both">Skill books</span> <span class="pill both">Nuclear fuel</span> <span class="pill">Drafts + recruits</span> <span class="pill">Troop kills and losses</span> <span class="pill">Healing (speedups)</span></td><td><span class="pill both">Research (speedups)</span> <span class="pill both">Construction (speedups)</span> <span class="pill both">Titan</span> <span class="pill both">Hero fragments</span> <span class="pill both">Skill books</span> <span class="pill both">Nuclear fuel</span></td></tr><tr><td><b>Sunday</b></td><td><span class="pill">Rest day</span></td><td><span class="pill">Everything counts</span> <span class="pill">Zombie kills</span> <span class="pill">Gathering</span> <span class="pill">Pets</span> <span class="pill">All hero, gear and titan items</span></td></tr></table>
+<!--/CAL_TABLE-->
+  </div>
+  <div class="note gold small"><strong><img class="em" src="img/emoji/1f4a1.svg" alt=""> Save Intel Missions for VS days.</strong> You can store up to 41 Intel Missions without losing any. Collect them during the week and complete them on Monday, Wednesday or Friday, when VS gives points for them. Friday pays the most: 37,500 each (Wednesday 30,000).</div>
+  <p class="small muted">Monday to Saturday, alliance donations also give points. The Turtle list can differ by state: in Turbo Turtle tap "Get points".</p>
+</section>
+
+<!-- ===================== 9 STORES ===================== -->
+<section class="ch" id="c9">
+  <div class="ch-head"><div class="ch-num">10</div><div><h2><i class="emoji"><img class="em" src="img/emoji/1f6d2.svg" alt=""></i>Stores</h2><p>What to buy first in each store.</p></div></div>
+
+  <div class="grid3">
+    <div class="kpi or"><div class="v">1,000</div><div class="l">coins per gold gear piece = very good price</div></div>
+    <div class="kpi"><div class="v">1,500</div><div class="l">good price</div></div>
+    <div class="kpi pu"><div class="v">2,000</div><div class="l">average price</div></div>
+  </div>
+
+  <div class="tw" style="margin-top:12px"><table>
+    <tr><th>Store</th><th>Buy first</th><th>Notes</th></tr>
+    <tr class="hl"><td><b><img class="em" src="img/emoji/1f422.svg" alt=""> Turbo Turtle</b></td><td>Gold gear (20 medals), 24 h second builder</td><td>Lowest price for gold gear</td></tr>
+    <tr class="hl"><td><b><img class="em" src="img/emoji/1f3b2.svg" alt=""> Magnate</b></td><td>Gold gear (~1,000 coins, 14 available), reforge tape</td><td>Coins carry over to the next Magnate</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/1f3c5.svg" alt=""> Glory</b></td><td>Gold gear (110,000 coins), bolts</td><td>Honor Expedition gives the most bolts</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/1f3df.svg" alt=""> Hero Arena</b></td><td>"Battle Hymn" HQ skin, titan serum</td><td>Serum: 20 tokens here, 320 diamonds on trade routes</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/267b.svg" alt=""> Recycling Center</b></td><td>Spare fragments → blueprints, reforge hammers</td><td>1 legendary fragment = 150 points. Players get more from blueprints here than from the Wall of Honor</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/1f504.svg" alt=""> Season hero exchange</b></td><td>SR → SSR upgrade coins for this season's hero</td><td>Heroes from earlier seasons can also be upgraded if you have coins</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/1f4a7.svg" alt=""> Reservoir</b></td><td>Signature Weapon coins, blueprints</td><td>Gold gear is a better buy than Signature Weapon coins</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/26cf.svg" alt=""> Goldmine</b></td><td>Gear cogs, crowns, build manuals</td><td>Use cogs to level the third titan</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/1f3d5.svg" alt=""> Season outpost</b></td><td>Spend all coins every week</td><td>Coins are removed when the season ends</td></tr>
+    <tr><td><b><img class="em" src="img/emoji/1f451.svg" alt=""> VIP</b></td><td>Weekly discounted stamina</td><td></td></tr>
+    <tr><td><b><img class="em" src="img/emoji/1f3a8.svg" alt=""> Skins</b></td><td>Permanent skins only</td><td>Temporary skins expire</td></tr>
+  </table></div>
+  <p class="small muted">Prices can differ by state.</p>
+
+  <div class="grid2">
+    <div class="card small"><h4><img class="em" src="img/emoji/1f48e.svg" alt=""> Diamonds without spending money</h4>24 h gathering bonus (600 a day). Only use backpack items when an event gives points for them. A store refresh only restocks items.</div>
+    <div class="card small"><h4><img class="em" src="img/emoji/1f4b3.svg" alt=""> If you spend money</h4>1. Weekly, monthly and season passes. 2. Second build and Lab slot. 3. Daily hero pack. 4. Magnate and pickaxe events. Buy only the first tier of "once only" offers.</div>
+  </div>
+</section>
+
+
+<footer><span class="credit">Created by Crazy Lions (CRL #691)</span> · Advice can change with game updates. If a rule here is different from the in-game text, follow the in-game text.</footer>
+</div>
+</body>
+</html>
