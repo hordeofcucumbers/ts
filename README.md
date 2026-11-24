@@ -23,8 +23,7 @@
   6. [Other squad power](guides/tiles-survive-guide.html#c6): Chief Collection, pets, titans
   7. [Settlement](guides/tiles-survive-guide.html#c7)
   8. [Research](guides/tiles-survive-guide.html#cR)
-  9. [Weekly plan](guides/tiles-survive-guide.html#c8)
-  10. [Stores](guides/tiles-survive-guide.html#c9)
+  9. [Stores](guides/tiles-survive-guide.html#c9)
 
 ## License
 
